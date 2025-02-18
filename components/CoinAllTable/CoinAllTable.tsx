@@ -37,10 +37,10 @@ export default function CoinAllTable() {
             <TableHead>Profit / Loss</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="p-20">
+        <TableBody >
           {currentData.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.coin} ({item.symbol})</TableCell>
+            <TableRow key={index} className="p-10">
+              <TableCell >{item.coin} ({item.symbol})</TableCell>
               <TableCell>{item.price}</TableCell>
               <TableCell>{item.holdings}</TableCell>
               <TableCell>{item.value}</TableCell>

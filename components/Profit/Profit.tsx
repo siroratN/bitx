@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Profit = () => {
   return (
-    <div className='p-5  w-[400px]   rounded-md border-2 border-gray-300'>
+    <div className='p-5  w-[400px]  rounded-md border-2 border-gray-300'>
         <div className='flex item-center justify-between'>
             <div className='flex gap-2'>
                 <Coins />
