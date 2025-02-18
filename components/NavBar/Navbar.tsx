@@ -1,5 +1,5 @@
 import { Search } from "lucide-react"
-import Logo from "./logo"
+import Logo from "./Logo"
 
 const Navbar = () => {
   return (
