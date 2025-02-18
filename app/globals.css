@@ -5,10 +5,10 @@
 
 @layer components{
     .container{
-      @apply px-10 sm:px-24 
+      @apply px-10 sm:px-24 mx-auto
     }
     .content{
-      @apply px-72 py-2 mx-auto
+      @apply px-36 py-6 mx-auto
     }
 }
 

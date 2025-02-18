@@ -1,12 +1,17 @@
-import { Button } from "@/components/ui/button"
+import CoinAllTable from "@/components/CoinAllTable/CoinAllTable"
+import Profit from "@/components/Profit/Profit"
+import { SignedOut, SignedIn ,SignUpButton, SignInButton } from '@clerk/nextjs'
 
 
 const page = () => {
   return (
     <div>
-      <p>popo</p>
-      <Button variant="outline" size='sm'>Button</Button>
-
+        <SignedIn>
+          <div>
+            <Profit/>
+          </div>
+        </SignedIn>
+        <CoinAllTable/>
     </div>
   )
 }

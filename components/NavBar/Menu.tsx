@@ -13,8 +13,7 @@ import Signout from "./Signout";
 import { SignedOut, SignedIn ,SignUpButton, SignInButton } from '@clerk/nextjs'
 
 const nav = [
-    { label: "Portfolio", href: '/portfolio' },
-    { label: "Wallet", href: '/wallet' }
+    { label: "Profile", href: '/profile' },
 ];
 
 const Menu = () => {
