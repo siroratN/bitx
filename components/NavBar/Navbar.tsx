@@ -12,7 +12,7 @@ const nav = [
 
 const Navbar = () => {
   return (
-    <nav className='bg-black backdrop-blur-sm'>
+    <nav className='bg-black bg-opacity-97 backdrop-blur-sm'>
         <div className="container flex justify-between items-center py-4">
             <div className='flex items-center gap-20 text-white font-semibold text-lg'>
               <p>BitX</p>
