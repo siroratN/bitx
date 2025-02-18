@@ -1,19 +1,21 @@
-import { Search } from "lucide-react"
-import Logo from "./logo"
+
+import { DarkMode } from "./DarkMode"
+import Menu from "./Menu"
 
 const Navbar = () => {
   return (
-    <nav>
-        <div className="container flex justify-between">
-            <Logo/>
-            <Search/>
-
-            <div>
-                <h1>Darkmode</h1>
-                <h1>Profile</h1>
+    <nav className='bg-black backdrop-blur-sm'>
+        <div className="container flex justify-between items-center py-4">
+            <div className='flex items-center text-white font-semibold text-lg'>
+              <p>BitX</p>
+            </div>
+            <div className="flex items-center gap-4">
+                <DarkMode/>
+                <Menu/>
             </div>
         </div>
     </nav>
   )
 }
+
 export default Navbar
