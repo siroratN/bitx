@@ -24,4 +24,8 @@ export async function FetchCoinData(): Promise<Coin[]> {
 }
 
 
-// export defult fetchCoinData
+export async function FetchCoinDataDetail(id:string){
+  const alldata = await FetchCoinData()
+  const coinDetail = alldata.find((item)=>item.id = id)
+  return coinDetail
+}

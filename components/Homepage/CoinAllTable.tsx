@@ -5,65 +5,65 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { FetchCoinData } from "@/data/fetchCoinData";
 import { Coin } from "@/util/allType";
+import { MoveDiagonal } from 'lucide-react';
 
 import { TrendingUp } from 'lucide-react';
 import { Input } from "../ui/input";
-
+import Link from "next/link";
 
 export default function CoinAllTable() {
   const [coin, setCoin] = useState<Coin[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+  const [filteredCoins, setFilteredCoins] = useState<Coin[]>([]);
 
-  useEffect(()=>{
-    const   getData = async () =>{
-      try{        
-        const data = await FetchCoinData()
-        setCoin(data)
-      }catch(error){
-        console.log(error)
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await FetchCoinData();
+        setCoin(data);
+        setFilteredCoins(data); // Initially set filtered coins to all fetched data
+      } catch (error) {
+        console.log(error);
       }
-    }
+    };
 
-    getData()
-  },[])
+    getData();
+  }, []);
 
-  const totalPages = Math.max(1, Math.ceil(coin.length / itemsPerPage)); 
-  const currentData = coin.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredCoins.length / itemsPerPage)); 
+  const currentData = filteredCoins.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const goToPage = (page: number) => setCurrentPage(page);
 
-
   function handleSearch(searchInput: string) {
     if (searchInput === '') {
-      // ถ้าช่องค้นหาว่าง ให้แสดงข้อมูลทั้งหมด
-      setCoin(coin);
+      setFilteredCoins(coin);
     } else {
       const searchCoin = coin.filter((item) =>
         item.name.toLowerCase().includes(searchInput.toLowerCase())
       );
-      setCoin(searchCoin);
+      setFilteredCoins(searchCoin); 
     }
-    setCurrentPage(1); // รีเซ็ตไปที่หน้าแรกทุกครั้งที่มีการค้นหา
+    setCurrentPage(1);
   }
-  
 
   return (
-    <div className='my-16 '>
-      <div className='flex items-center justify-between gap-3  px-2 mb-10 rounded-sm'>
-          <div className="flex gap-5 items-center">
-            <p className='text-4xl  font-bold'>Cryptocurrency Market</p>
-            <p className='text-red-700'><TrendingUp/></p>
-          </div>
-          <Input type="text" className="w-[250px] text-sm rounded-sm" onChange={(e)=>handleSearch(e.target.value)} placeholder="Seach Cryptocurrency Coin..."/>
+    <div className='my-16'>
+      <div className='flex items-center justify-between gap-3  mb-10 rounded-sm'>
+        <div className="flex gap-5 items-center">
+          <p className='text-4xl font-bold'>Cryptocurrency Market</p>
+          <p className='text-red-700'><TrendingUp/></p>
         </div>
+        <Input type="text" className="w-[250px] text-sm rounded-sm" onChange={(e) => handleSearch(e.target.value)} placeholder="Search Cryptocurrency Coin..."/>
+      </div>
 
-      <Table >
+      <Table>
         <TableHeader className="border-b border-gray-300">
-          <TableRow className=" border-b border-gray-300">
-            <TableHead >Coin</TableHead>
+          <TableRow className="border-b border-gray-300">
+            <TableHead>Coin</TableHead>
             <TableHead className="text-center">Name</TableHead>
             <TableHead className="text-center">Price (THB)</TableHead>
             <TableHead className="text-center">24h Change</TableHead>
@@ -73,27 +73,18 @@ export default function CoinAllTable() {
         <TableBody>
           {currentData.map((item) => (
             <TableRow key={item.id} className="border-b border-gray-300 m-10 text-center">
-              <TableCell className='flex item-center'>
+              <TableCell className='flex items-center'>
                 <img src={item.image} alt={item.name} className="w-10 h-10" />
               </TableCell>
-              <TableCell >
-                {item.name} ({item.symbol.toUpperCase()})
-              </TableCell>
-              <TableCell >
-                {item.current_price.toLocaleString()} ฿
-              </TableCell>
-              <TableCell
-                className={`${
-                  item.price_change_percentage_24h < 0 ? "text-red-500" : "text-green-500"
-                }`}
-              >
+              <TableCell>{item.name} ({item.symbol.toUpperCase()})</TableCell>
+              <TableCell>{item.current_price.toLocaleString()} ฿</TableCell>
+              <TableCell className={`${item.price_change_percentage_24h < 0 ? "text-red-500" : "text-green-500"}`}>
                 {item.price_change_percentage_24h.toFixed(2)}%
               </TableCell>
-              <TableCell >
-                {item.market_cap.toLocaleString()} ฿
-              </TableCell>
-              
-            </TableRow>
+              <TableCell>{item.market_cap.toLocaleString()} ฿</TableCell>
+              <TableCell><Link href={`/coin/${item.id}`}>    <MoveDiagonal className="text-blue" size={16} />
+              </Link></TableCell>
+              </TableRow>
           ))}
         </TableBody>
       </Table>
@@ -111,8 +102,6 @@ export default function CoinAllTable() {
         ))}
         <Button variant="outline" onClick={nextPage} disabled={currentPage === totalPages}>Next</Button>
       </div>
-
-
     </div>
   );
 }
