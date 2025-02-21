@@ -3,10 +3,10 @@
 =======
 ไฟล์ .env
 
-# Connect to Supabase via connection pooling with Supavisor.
+
 DATABASE_URL="postgresql://postgres.hhmzmaeigcugjddqseck:pp811010_Za@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
 
-# Direct connection to the database. Used for migrations.
+
 DIRECT_URL="postgresql://postgres.hhmzmaeigcugjddqseck:pp811010_Za@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
 
 -----------------------------------
