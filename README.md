@@ -1,6 +1,18 @@
 <<<<<<< HEAD
 # BitX
 =======
+ไฟล์ .env
+
+
+DATABASE_URL="postgresql://postgres.hhmzmaeigcugjddqseck:pp811010_Za@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+
+
+DIRECT_URL="postgresql://postgres.hhmzmaeigcugjddqseck:pp811010_Za@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+
+-----------------------------------
+
+
+        
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

@@ -1,9 +1,9 @@
 import { TrendingUp } from 'lucide-react';
 
-const App = () => {
+const Trendingup = () => {
   return (
     <TrendingUp />
   );
 };
 
-export default App;
+export default Trendingup;

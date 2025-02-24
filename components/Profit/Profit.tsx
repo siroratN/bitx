@@ -4,11 +4,12 @@ import Link from 'next/link';
 
 const Profit = () => {
   return (
-    <div className='p-5  w-[400px]   rounded-md border-2 border-gray-300'>
+    <div className='p-5  rounded-md shadow-lg'>
+        {/* <p className='text-2xl mb-5 font-semibold text-gray-600'>PORTFOLIO</p> */}
         <div className='flex item-center justify-between'>
             <div className='flex gap-2'>
-                <Coins />
-                <p>Summary Total</p>
+                <Coins className='text-sm' />
+                <p className='text-sm'>Summary Total</p>
             </div>
             <div>
                 <Link  href='/portfolio'>
