@@ -11,11 +11,15 @@
   "dependencies": {
     "@clerk/nextjs": "^6.11.3",
     "@next/font": "^14.2.15",
+    "@mui/material": "^6.4.5",
+    "@mui/styled-engine": "^6.4.3",
+    "@mui/x-charts": "^7.27.0",
     "@prisma/client": "^6.4.1",
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.6",
     "@types/axios": "^0.9.36",
+    "LineChart": "link:@mui/x-charts/LineChart",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -24,6 +28,7 @@
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-google-charts": "^5.2.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7"
   },

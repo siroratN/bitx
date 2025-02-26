@@ -23,9 +23,32 @@ export async function FetchCoinData(): Promise<Coin[]> {
   }
 }
 
+export async function CoinChart(id: string) {
+  const options = {
+    method: 'GET',
+    headers: { 
+      accept: 'application/json', 
+      'x-cg-demo-api-key': 'CG-wtDF4MCkuAcwxG7zMRvzctPz' 
+    }
+  };
+  
+  try {
+    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=thb&days=10&interval=daily`, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error('Error fetching coin chart:', err);
+    return null;
+  }
+}
 
-export async function FetchCoinDataDetail(id:string){
+
+export async function FetchCoinDataDetail(id: string) {
   const alldata = await FetchCoinData()
-  const coinDetail = alldata.find((item)=>item.id = id)
-  return coinDetail
+  const coinDetail = alldata.find((item) => item.id === id)
+  return coinDetail || null
 }
