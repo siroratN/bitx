@@ -1,5 +1,5 @@
 'use client'
-import { Coin } from '@/util/allType'
+import { Coin } from '@/utils/allType'
 import axios from 'axios'
 
 

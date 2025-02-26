@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { FetchCoinData } from "@/data/fetchCoinData";
-import { Coin } from "@/util/allType";
+import { Coin } from "@/utils/allType";
 import { MoveDiagonal, TrendingUp, Search } from 'lucide-react';
 import { Input } from "../ui/input";
 import Link from "next/link";
