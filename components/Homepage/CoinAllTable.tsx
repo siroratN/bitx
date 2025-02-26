@@ -82,11 +82,11 @@ export default function CoinAllTable() {
           {currentData.map((item) => (
             <TableRow key={item.id} className="text-center border-none rounded-lg">
               <TableCell className='flex items-center'>
-                <img src={item.image} alt={item.name} className="w-10 h-10" />
+                <img src={item.image} alt={item.name} className="w-10 h-10 " />
               </TableCell>
               <TableCell>{item.name} ({item.symbol.toUpperCase()})</TableCell>
               <TableCell>{item.current_price.toLocaleString()} ฿</TableCell>
-              <TableCell className={`${item.price_change_percentage_24h < 0 ? "text-red-500" : "text-green-500"}`}>
+              <TableCell className={`${item.price_change_percentage_24h < 0 ? "text-red-500 " : "text-green-500 "}`} >
                 {item.price_change_percentage_24h.toFixed(2)}%
               </TableCell>
               <TableCell>{item.market_cap.toLocaleString()} ฿</TableCell>
