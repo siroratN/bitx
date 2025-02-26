@@ -42,7 +42,7 @@ const Detail = () => {
                     <div className="grid grid-cols-2 gap-14">
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row gap-2">
-                                <img className="size-20" src={coin.image} alt={coin.name} />
+                                <img className="size-20 animate-spin transition-4" src={coin.image} alt={coin.name} />
                                 <p className="p-4 text-2xl">
                                     {coin.id}{" "}
                                     <span className="bg-slate-900 text-sm p-1 rounded-sm text-white">
@@ -137,7 +137,7 @@ const Detail = () => {
                                                 <div>
                                                     <input
                                                         type="number"
-                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md "
+                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                 </div>
                                             </div>

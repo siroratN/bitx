@@ -22,13 +22,13 @@ model Profile {
 
 model Asset {
   id           Int          @id @default(autoincrement())
-  crypto       String
+  name       String
   owner        Profile      @relation(fields: [ownerId], references: [id])
   ownerId      Int
   transactions Transaction[]
-  totalSpent   Float        @default(0.0)  
-  amount       Float        @default(0.0)  
-  @@unique([ownerId, crypto])
+  totalSpent   Float
+  quantity     Float? 
+  @@unique([ownerId, name])
 }
 
 model Transaction {

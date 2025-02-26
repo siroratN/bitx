@@ -17,7 +17,8 @@ export async function createProfile() {
     });
 
     if (existingProfile) {
-      return { message: "Profile already exists", profile: existingProfile };
+      console.log(existingProfile)
+      return { success: true, profile: existingProfile };
     }
 
     const profile = await db.profile.create({
