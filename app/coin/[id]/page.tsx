@@ -38,7 +38,7 @@ const Detail = () => {
     return (
         <>
             {coin ? (
-                <div className="flex flex-col gap-2 p-4">
+                <div className="flex flex-col gap-2 p-4 mt-6">
                     <div className="grid grid-cols-2 gap-14">
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row gap-2">
@@ -61,7 +61,7 @@ const Detail = () => {
                             <div>
                                 <div className="grid grid-cols-3 gap-6 items-center">
                                     <div className="flex flex-col">
-                                        <p className="text-gray-500 text-sm text-center">ราคาปัจจุบัน</p>
+                                        <p className="text-gray-500 text-sm text-center">ราคาล่าสุด</p>
                                         <div className="flex items-center gap-2 font-semibold text-sm">
                                             {coin.current_price.toLocaleString()} ฿
                                             <span
@@ -163,6 +163,7 @@ const Detail = () => {
                                                 >
                                                     ซื้อ
                                                 </button>
+                                                
                                             </div>
                                         </div>
                                     ) : (
