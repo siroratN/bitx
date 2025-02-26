@@ -1,29 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import { useEffect} from "react";
+import { SignedIn, SignedOut, useAuth} from "@clerk/nextjs";
 import Barcoin from "@/components/Homepage/barcoin";
 import CoinAllTable from "@/components/Homepage/CoinAllTable";
 import Profit from "@/components/Profit/Profit";
 import { createProfile } from "@/actions/Profile/action";
 
+
 const Page = () => {
-  const { isLoaded, user } = useUser();
-  const [loading, setLoading] = useState(false);
+  const { isSignedIn } = useAuth(); 
 
   useEffect(() => {
-    if (isLoaded && user) {
-      setLoading(true);
-      createProfile()
-        .then((res) => {
-          console.log(res);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-          setLoading(false);
-        });
+    if (isSignedIn) {
+      createProfile(); 
     }
-  }, [isLoaded, user]);
+  }, [isSignedIn]); 
+
 
   return (
     <div>
@@ -42,7 +34,7 @@ const Page = () => {
         </div>
       </SignedOut>
 
-      <SignedIn>
+      {/* <SignedIn>
         {loading ? (
           <p>กำลังตรวจสอบโปรไฟล์...</p>
         ) : (
@@ -50,7 +42,7 @@ const Page = () => {
             <Profit />
           </div>
         )}
-      </SignedIn>
+      </SignedIn> */}
 
       <CoinAllTable />
     </div>

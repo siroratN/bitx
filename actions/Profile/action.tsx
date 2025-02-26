@@ -1,12 +1,10 @@
-import { auth } from "@clerk/nextjs";
+'use server'
+
 import { currentUser } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 
 export async function createProfile() {
   try {
-    const { userId } = auth();
-    if (!userId) return { error: "Unauthorized" };
-
     const user = await currentUser();
     if (!user) return { error: "User not found" };
 
@@ -15,7 +13,7 @@ export async function createProfile() {
     const email = user.emailAddresses?.[0]?.emailAddress || "";
 
     const existingProfile = await db.profile.findUnique({
-      where: { clerkId: userId },
+      where: { clerkId: user.id },
     });
 
     if (existingProfile) {
@@ -23,7 +21,7 @@ export async function createProfile() {
     }
 
     const profile = await db.profile.create({
-      data: { clerkId: userId, firstName, lastName, email },
+      data: { clerkId: user.id, firstName, lastName, email },
     });
 
     return { message: "Profile created", profile };
