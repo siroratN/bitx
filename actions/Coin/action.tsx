@@ -10,20 +10,20 @@ export async function createCash() {
             return { message: "User not authenticated" };
         }
 
-        const getuser = await db.profile.findFirst({
+        const getUser = await db.profile.findFirst({
             where: {
                 clerkId: user.id
             },
         });
 
-        if (!getuser) {
+        if (!getUser) {
             return { message: "User profile not found" };
         }
 
         const existingCash = await db.asset.findFirst({
             where: {
                 name: "Cash",
-                ownerId: getuser.id
+                ownerId: getUser.id
             },
         });
 
@@ -33,12 +33,28 @@ export async function createCash() {
 
 
         const cash = await db.asset.create({
-            data: { name: "Cash", totalSpent: 10000, ownerId: getuser.id }
+            data: { name: "Cash", totalSpent: 10000, ownerId: getUser.id }
         });
 
         return { message: "Create cash success", cash };
     } catch (err) {
         console.log(err);
         return { message: "An error occurred", error: err };
+    }
+}
+
+
+export async function getAllAsset(){
+    try{
+        const user = await currentUser();
+        const getUser = db.profile.findFirst({
+            where:{
+                clerkId : user.id
+            }
+        })
+        return {result: getUser}
+    }catch(error){
+        console.log(error)
+        return {message: 'error now???', error: error}
     }
 }

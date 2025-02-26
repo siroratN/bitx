@@ -17,7 +17,9 @@ const Page = () => {
             try {
                 const res = await createProfile();
                 if (res.success) {
-                    await createCash(); // รอให้ createCash เสร็จก่อน
+                    await createCash().then((res)=>{
+                        console.log(res.message)
+                    }).catch(err=>console.log("Error creating profile:", err))
                 }
             } catch (err) {
                 console.error("Error creating profile or cash:", err);

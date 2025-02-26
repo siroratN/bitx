@@ -20,7 +20,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={nunitoSans.className}>
           <Providers>
-            <header className="fixed top-0 left-0 w-full">
+            <header className="fixed top-0 left-0 w-full bg-black">
               <Navbar />
             </header>
             <main className="content">

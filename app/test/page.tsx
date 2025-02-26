@@ -1,8 +1,9 @@
-import { createCash } from "@/actions/Coin/action"
+import { getAllAsset } from "@/actions/Coin/action"
 
 const page = () => {
+  const [test, setTest] = useSta
   return (
-    <button onClick={createCash}>test</button>
+    <button onClick={getAllAsset}>test</button>
   )
 }
 export default page

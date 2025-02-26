@@ -15,7 +15,7 @@ const Navbar = () => {
     <nav className='shadow-sm'>
         <div className="container flex justify-between items-center py-4">
             <div className='flex items-center gap-20  font-semibold text-lg '>
-              <p className="mr-2">BitX</p>
+              <p className="mr-2 text-[#FACC15]">BitX</p>
               <div className='flex justify-between '>
                 {nav.map((item, index) => (
                     <Link key={index} href={item.href} className="mr-7">
