@@ -17,7 +17,6 @@ export async function createProfile() {
     });
 
     if (existingProfile) {
-      console.log(existingProfile)
       return { success: true, profile: existingProfile };
     }
 
