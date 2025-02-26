@@ -16,7 +16,6 @@ export async function createCash() {
                 clerkId: user.id
             },
         });
-        console.log("Profile found:", getuser);
 
         if (!getUser) {
             return { message: "User profile not found" };

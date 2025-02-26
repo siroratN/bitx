@@ -35,7 +35,7 @@ export async function buyCoin(params: { coinId: string; price: number; quantity:
         });
 
         if (!cash) {
-            return { message: "User does not have Cash asset" };
+            return { message: "No cash" };
         }
 
         if (cash.totalSpent < price) {
