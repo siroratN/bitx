@@ -17,12 +17,12 @@ const page = () => {
           </div>
         </SignedOut>
 
-        <SignedIn>
+        {/* <SignedIn>
           
           <div className='mt-10'>
             <Profit/>
           </div>
-        </SignedIn>
+        </SignedIn> */}
 
         <CoinAllTable/>
     </div>

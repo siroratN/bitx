@@ -8,4 +8,44 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-        
+
+
+model Profile {
+  id           Int     @id @default(autoincrement())
+  clerkId      String     @unique
+  firstName    String
+  lastName     String
+  email        String
+  assets        Asset[]
+  transactions  Transaction[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+model Asset {
+  id           Int           @id @default(autoincrement())
+  crypto       String      
+  owner        Profile       @relation(fields: [ownerId], references: [id])
+  ownerId      Int
+  transactions Transaction[]
+  totalSpent   Float         @default(0.0)  
+
+  @@unique([ownerId, crypto])
+}
+
+
+model Transaction {
+  id         Int              @id @default(autoincrement())
+  type       TransactionType  // BUY หรือ SELL
+  profile    Profile          @relation(fields: [profileId], references: [id])
+  profileId  Int
+  asset      Asset            @relation(fields: [assetId], references: [id])
+  assetId    Int
+  quantity   Float
+  price      Float
+  timestamp  DateTime         @default(now())
+}
+
+enum TransactionType {
+  BUY
+  SELL
+}
