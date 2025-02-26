@@ -1,6 +1,7 @@
 import { ThemeProvider } from "./theme-provider"
 import { Toaster } from "@/components/ui/toaster"
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Providers = ({children}:{children:React.ReactNode}) => {
   return (
     <>
@@ -12,6 +13,7 @@ const Providers = ({children}:{children:React.ReactNode}) => {
     >
         {children}
         <Toaster />
+        <ToastContainer />
     </ThemeProvider>
     </>
   )

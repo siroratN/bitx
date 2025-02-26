@@ -1,6 +1,6 @@
 "use client";
 
-import { getProfile } from "../../action/action";
+import { getProfile } from "@/actions/";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

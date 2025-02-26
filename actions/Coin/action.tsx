@@ -6,6 +6,7 @@ import { currentUser } from '@clerk/nextjs/server';
 export async function createCash() {
     try {
         const user = await currentUser();
+        console.log(user);
         if (!user) {
             return { message: "User not authenticated" };
         }
@@ -15,6 +16,7 @@ export async function createCash() {
                 clerkId: user.id
             },
         });
+        console.log("Profile found:", getuser);
 
         if (!getuser) {
             return { message: "User profile not found" };

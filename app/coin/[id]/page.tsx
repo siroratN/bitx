@@ -6,11 +6,17 @@ import { FetchCoinDataDetail } from "@/data/fetchCoinData";
 import { useParams } from "next/navigation";
 import { CoinChart } from "@/data/fetchCoinData";
 import LineChart from "@/components/LineChart/LineChart";
+import { buyCoin } from "@/actions/Buy/action";
+import { toast } from 'react-toastify';
+
+
 const Detail = () => {
     const { id } = useParams();
     const [coin, setCoin] = useState(null);
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
+    const [amount, setAmount] = useState("");
+    const [quantity, setQuantity] = useState(0); 
     useEffect(() => {
         if (!id) return;
         const getData = async () => {
@@ -35,6 +41,31 @@ const Detail = () => {
         getChart();
         getData();
     }, [id]);
+    useEffect(() => {
+        if (coin && amount) {
+            setQuantity(parseFloat(amount) / coin.current_price);
+        }
+    }, [amount, coin]);
+
+    const handleBuyCoin = async () => {
+        if (!amount || !quantity) {
+            toast.error("กรุณากรอกจำนวนเงินที่ต้องการซื้อ");
+            return;
+        }
+        const response = await buyCoin({
+            coinId: coin.id,
+            price: parseFloat(amount),
+            quantity: quantity,
+        });
+
+        if (response.success) {
+            toast.success("การซื้อเหรียญสำเร็จ!");
+            setAmount(""); 
+            setQuantity(0);
+        } else {
+            toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
+        }
+    };
     return (
         <>
             {coin ? (
@@ -42,7 +73,7 @@ const Detail = () => {
                     <div className="grid grid-cols-2 gap-14">
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row gap-2">
-                                <img className="size-20 animate-spin transition-4" src={coin.image} alt={coin.name} />
+                                <img className="size-20" src={coin.image} alt={coin.name} />
                                 <p className="p-4 text-2xl">
                                     {coin.id}{" "}
                                     <span className="bg-slate-900 text-sm p-1 rounded-sm text-white">
@@ -137,6 +168,8 @@ const Detail = () => {
                                                 <div>
                                                     <input
                                                         type="number"
+                                                        value={amount}
+                                                        onChange={(e) => setAmount(e.target.value)}
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                 </div>
@@ -152,13 +185,14 @@ const Detail = () => {
                                                 </div>
                                                 <div>
                                                     <p className="flex justify-end text-2xl">
-                                                        0.00000000
+                                                    {quantity.toFixed(8)}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div className="flex mt-3">
                                                 <button
                                                     type="submit"
+                                                    onClick={handleBuyCoin}
                                                     className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                                                 >
                                                     ซื้อ
