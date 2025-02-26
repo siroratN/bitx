@@ -3,9 +3,10 @@ import "./globals.css";
 import Navbar from "@/components/NavBar/Navbar";
 import Providers from "./Providers";
 import { ClerkProvider } from '@clerk/nextjs';
-import { Nunito_Sans } from 'next/font/google';
+import { Nunito_Sans, Kanit } from 'next/font/google';
 
 const nunitoSans = Nunito_Sans({ subsets: ['latin'], weight: ['400', '700'] });
+const kanit = Kanit({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={nunitoSans.className}>
+        <body className={`${nunitoSans.className} ${kanit.className}`}>
           <Providers>
             <header className="fixed top-0 left-0 w-full bg-black">
               <Navbar />

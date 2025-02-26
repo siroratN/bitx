@@ -8,6 +8,8 @@ import { CoinChart } from "@/data/fetchCoinData";
 import LineChart from "@/components/LineChart/LineChart";
 import { buyCoin } from "@/actions/Buy/action";
 import { toast } from 'react-toastify';
+import Barcoin from "@/components/Homepage/barcoin";
+
 
 
 const Detail = () => {
@@ -16,7 +18,7 @@ const Detail = () => {
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
-    const [quantity, setQuantity] = useState(0); 
+    const [quantity, setQuantity] = useState(0);
     useEffect(() => {
         if (!id) return;
         const getData = async () => {
@@ -60,7 +62,7 @@ const Detail = () => {
 
         if (response.success) {
             toast.success("การซื้อเหรียญสำเร็จ!");
-            setAmount(""); 
+            setAmount("");
             setQuantity(0);
         } else {
             toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
@@ -69,8 +71,9 @@ const Detail = () => {
     return (
         <>
             {coin ? (
-                <div className="flex flex-col gap-2 p-4 mt-6">
-                    <div className="grid grid-cols-2 gap-14">
+                <div className="flex flex-col gap-2 p-4 mt-1">
+                    <Barcoin />
+                    <div className="grid grid-cols-2 gap-14 mt-4">
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row gap-2">
                                 <img className="size-20" src={coin.image} alt={coin.name} />
@@ -169,7 +172,12 @@ const Detail = () => {
                                                     <input
                                                         type="number"
                                                         value={amount}
-                                                        onChange={(e) => setAmount(e.target.value)}
+                                                        onChange={(e) => {
+                                                            const value = e.target.value;
+                                                            if (parseFloat(value) >= 0 || value === "") {
+                                                                setAmount(value);
+                                                            }
+                                                        }}
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                 </div>
@@ -185,7 +193,7 @@ const Detail = () => {
                                                 </div>
                                                 <div>
                                                     <p className="flex justify-end text-2xl">
-                                                    {quantity.toFixed(8)}
+                                                        {quantity.toFixed(8)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -197,7 +205,7 @@ const Detail = () => {
                                                 >
                                                     ซื้อ
                                                 </button>
-                                                
+
                                             </div>
                                         </div>
                                     ) : (
@@ -241,7 +249,11 @@ const Detail = () => {
                                                 </button>
                                             </div>
                                         </div>
+
                                     )}
+                                    <div className="mt-6 text-right text-red-600">
+                                        <p>*** ทุกการลงทุนมีความเสี่ยง ***</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
