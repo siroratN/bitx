@@ -9,7 +9,7 @@ import LineChart from "@/components/LineChart/LineChart";
 import { buyCoin } from "@/actions/Buy/action";
 import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
-
+import { FetchCash } from "@/actions/Cash/action";
 
 
 const Detail = () => {
@@ -19,6 +19,7 @@ const Detail = () => {
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
     const [quantity, setQuantity] = useState(0);
+    const [cash, setCash] = useState(null);
     useEffect(() => {
         if (!id) return;
         const getData = async () => {
@@ -40,6 +41,19 @@ const Detail = () => {
                 console.error(error);
             }
         };
+
+        const getCash = async () => {
+            try {
+                const data = await FetchCash();
+                console.log(data);
+                setCash(data.cash);
+                console.log(data.cash);
+                console.log(data.cash.totalSpent);
+            } catch (error) {
+                console.error("Error fetching cash:", error);
+            }
+        };
+        getCash();
         getChart();
         getData();
     }, [id]);
@@ -177,17 +191,22 @@ const Detail = () => {
                                                     <input
                                                         type="number"
                                                         value={amount || ""}
+                                                        max={cash?.totalSpent}
                                                         onChange={(e) => {
                                                             const value = e.target.value;
                                                             if (parseFloat(value) >= 0 || value === "") {
                                                                 setAmount(value);
                                                             }
-                                                            else{
+                                                            else {
                                                                 setAmount("")
                                                             }
                                                         }}
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
+                                                    <h1 className="mt-4 flex justify-end">
+                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
+                                                    </h1>
+
                                                 </div>
                                             </div>
                                             <hr />
@@ -235,7 +254,7 @@ const Detail = () => {
                                                             if (parseFloat(value) >= 0 || value === "") {
                                                                 setAmount(value);
                                                             }
-                                                            else{
+                                                            else {
                                                                 setAmount("")
                                                             }
                                                         }}
