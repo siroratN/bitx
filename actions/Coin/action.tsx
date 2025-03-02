@@ -71,51 +71,58 @@ export async function getAllAsset() {
     }
 }
 
-export async function calProfit(coinName: string) : Promise<ProfitResult|ErrorResponse> {
+export async function calProfit(coinName: string): Promise<ProfitResult | ErrorResponse> {
+    console.log('กุส่งออะไรไป' , coinName)
     const user = await currentUser();
-
     if (!user) {
-        return { message: "User not authenticated" };
+        return { success: false, errorType: "AUTH_ERROR", message: "User not authenticated" };
     }
 
-    const getUser = await db.profile.findFirst({
-        where: { clerkId: user.id }
-    });
-
+    const getUser = await db.profile.findFirst({ where: { clerkId: user.id } });
+    console.log(getUser)
+    
     if (!getUser) {
-        return { message: "User profile not found" };
+        return { success: false, errorType: "PROFILE_NOT_FOUND", message: "User profile not found" };
     }
 
     const myCoin = await db.asset.findFirst({
-        where: {
-            ownerId: getUser.id,
-            name: coinName
-        }
+        where: { ownerId: getUser.id, name: coinName }
     });
 
-    if (!myCoin || !myCoin.quantity) {
-        return { message: "No asset found or quantity is zero" };
+    console.log('ควยยย : ',myCoin)
+
+    if (!myCoin) {
+        return { success: false, errorType: "ASSET_NOT_FOUND", message: "No asset found or quantity is zero" };
+    }
+
+    if (myCoin.totalSpent === 0) {
+        return { success: false, errorType: "INVALID_DATA", message: "Total spent cannot be zero" };
     }
 
     const nowCoin = await FetchCoinDataDetail(coinName);
-
-    if (!nowCoin || !nowCoin.current_price) {
-        return { message: "Failed to fetch current coin price" };
+    if (!nowCoin || !nowCoin.current_price || nowCoin.current_price <= 0) {
+        return { success: false, errorType: "FETCH_ERROR", message: "Failed to fetch valid coin price" };
     }
 
     const avgPriceCoin = myCoin.totalSpent / myCoin.quantity;
-    const hasPriceNow = nowCoin.current_price * myCoin.quantity
-    const hasPriceHold =  avgPriceCoin * myCoin.quantity
-    const profitPercent = ((hasPriceNow - hasPriceHold ) / hasPriceHold)*100
+    const hasPriceNow = nowCoin.current_price * myCoin.quantity;
+    const hasPriceHold = avgPriceCoin * myCoin.quantity;
+    const profitPercent = ((hasPriceNow - hasPriceHold) / hasPriceHold) * 100;
 
-    return { resultProfit: hasPriceNow - hasPriceHold   , resultProfitPercent : profitPercent };
+    return {
+        myCoin,
+        avgPriceCoin,
+        hasPriceNow,
+        hasPriceHold,
+        resultProfit: hasPriceNow - hasPriceHold,
+        resultProfitPercent: profitPercent
+    };
 }
+
 
 export async function calAssettotal(allAssets) {
     try {
         let total_current_price = 0;
-        
-        
         const noCash = allAssets.filter((item) => item.name !== 'Cash');
         const Cash = allAssets.filter((item) => item.name === 'Cash');
 
@@ -146,3 +153,4 @@ export async function calAssettotal(allAssets) {
         };
     }
 }
+

@@ -4,10 +4,10 @@ import { getAllAsset } from "@/actions/Coin/action"
 import { useEffect, useState } from "react"
 import { UserRound } from 'lucide-react';
 import BalanceCard from "@/components/asset/BalanceCard";
+import DetailAsset from "@/components/asset/DetailAsset";
 
 const Assets = () => {
   const [user, setUser] = useState(null)
-  const [view, setView] = useState(null)
 
   useEffect(() => {
     const fetchAsset = async () => {
@@ -27,24 +27,23 @@ const Assets = () => {
       <div className='flex items-center gap-3 justify-between px-[5px]'>
         <div className='flex gap-4'>
           <UserRound />
-          <p>Account: {user?.firstName} {user?.lastName}</p>
+          <p className='text-xl'>Account: {user?.firstName} {user?.lastName}</p>
         </div>
-        <div className="flex flex-col gap-2 w-[350px]">
+        <div className="flex flex-col gap-2 w-[600px]">
           <BalanceCard allMyAssets={user?.assets} />
         </div>
       </div>
 
-      <div className={view ? "grid grid-cols-[47%_53%]" : ""}>
+      <div className='w-full'>
         <div className='flex flex-col gap-10'>
           <div className="sm:w-full flex flex-col">
-            <p className='mb-5'>Your Assets</p>
-            <div className={view ?'px-5 flex flex-col gap-1 transition-all duration-500 ease-in-out' : 'grid grid-cols-3 gap-5'}>
+            <p className='mb-7 mt-10 text-xl'>Your Assets : {user?.assets.length}</p>
+            <div className={ 'grid grid-cols-3 gap-5'}>
               {user?.assets ? (
                 user.assets.map((data) => (
                   <CoinCard
                     key={data.id} 
-                    data={data}
-                    setView = {setView}                  />
+                    data={data}  />
                 ))
               ) : (
                 <p>Loading assets...</p>
@@ -53,14 +52,6 @@ const Assets = () => {
           </div>
         </div>
 
-        <div className='w-full '>
-          
-        {view && (
-            <div className="w-full transition-all duration-500 ease-out-in opacity-100 transform translate-y-0">
-              <p>Viewing: {view}</p>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   )

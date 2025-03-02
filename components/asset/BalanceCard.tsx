@@ -33,7 +33,7 @@ const BalanceCard = ({ allMyAssets }) => {
       <CardHeader>
         <CardTitle>
           <div className="flex items-center">
-            <CardDescription className="font-normal">Assets Balance</CardDescription>
+            <CardDescription className="font-normal text-lg ">Assets Balance</CardDescription>
           </div>
         </CardTitle>
         <CardDescription>
