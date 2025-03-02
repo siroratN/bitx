@@ -1,4 +1,4 @@
-'use client'
+'use server'
 import { Coin } from '@/utils/allType'
 import axios from 'axios'
 

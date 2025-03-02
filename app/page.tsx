@@ -17,9 +17,7 @@ const Page = () => {
             try {
                 const res = await createProfile();
                 if (res.success) {
-                    await createCash().then((res)=>{
-                        console.log(res.message)
-                    }).catch(err=>console.log("Error creating profile:", err))
+                    await createCash()
                 }
             } catch (err) {
                 console.error("Error creating profile or cash:", err);
@@ -32,8 +30,8 @@ const Page = () => {
 
 
   return (
-    <div>
-      <Barcoin />
+    <div className="mt-[-2px]">
+      <Barcoin/>
 
       <SignedOut>
         <div className="my-20">
