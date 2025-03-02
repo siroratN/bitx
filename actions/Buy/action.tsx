@@ -86,3 +86,4 @@ export async function buyCoin(params: { coinId: string; price: number; quantity:
         return { error};
     }
 }
+

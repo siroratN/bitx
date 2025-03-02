@@ -9,7 +9,7 @@ import LineChart from "@/components/LineChart/LineChart";
 import { buyCoin } from "@/actions/Buy/action";
 import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
-
+import { FetchCash } from "@/actions/Cash/action";
 
 
 const Detail = () => {
@@ -19,6 +19,7 @@ const Detail = () => {
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
     const [quantity, setQuantity] = useState(0);
+    const [cash, setCash] = useState(null);
     useEffect(() => {
         if (!id) return;
         const getData = async () => {
@@ -40,12 +41,25 @@ const Detail = () => {
                 console.error(error);
             }
         };
+
+        const getCash = async () => {
+            try {
+                const data = await FetchCash();
+                console.log(data);
+                setCash(data.cash);
+                console.log(data.cash);
+                console.log(data.cash.totalSpent);
+            } catch (error) {
+                console.error("Error fetching cash:", error);
+            }
+        };
+        getCash();
         getChart();
         getData();
     }, [id]);
     useEffect(() => {
         if (coin && amount) {
-            setQuantity(parseFloat(amount) / coin.current_price);
+            setQuantity(parseFloat(amount) / coin?.current_price);
         }
     }, [amount, coin]);
 
@@ -75,22 +89,27 @@ const Detail = () => {
                     <Barcoin />
                     <div className="grid grid-cols-2 gap-14 mt-4">
                         <div className="flex flex-col gap-4">
-                            <div className="flex flex-row gap-2">
-                                <img className="size-20" src={coin.image} alt={coin.name} />
-                                <p className="p-4 text-2xl">
-                                    {coin.id}{" "}
-                                    <span className="bg-slate-900 text-sm p-1 rounded-sm text-white">
-                                        {coin.symbol.toUpperCase()}
+                            <div className="grid grid-cols-3">
+                                <div className="col-span-2">
+                                    <div className="flex flex-row gap-2">
+                                        <img className="size-20" src={coin.image} alt={coin.name} />
+                                        <p className="p-4 text-2xl">
+                                            {coin.id}{" "}
+                                            <span className="bg-slate-900 text-sm p-1 rounded-sm text-white px-3">
+                                                {coin.symbol.toUpperCase()}
+                                            </span>
+                                            <span className="px-2 ml-1 mt-2 inline-flex items-center">
+                                                <ButtonIcon />
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-end justify-center space-y-2">
+                                    <span className="bg-slate-900 text-sm text-white py-1 px-2 rounded-sm">
+                                        Rank #{coin.market_cap_rank}
                                     </span>
-                                    <span className="p-2">
-                                        <ButtonIcon />
-                                    </span>
-                                </p>
-                            </div>
-                            <div className="flex flex-row gap-10">
-                                <span className="bg-slate-900 p-1 text-sm rounded-sm text-white">
-                                    Rank #{coin.market_cap_rank}
-                                </span>
+                                </div>
+
                             </div>
                             <div>
                                 <div className="grid grid-cols-3 gap-6 items-center">
@@ -128,7 +147,7 @@ const Detail = () => {
                                 </div>
 
                             </div>
-                            <div className="">
+                            <div className="-mt-8">
                                 <LineChart historicalData={coinChart} />
                             </div>
                         </div>
@@ -157,8 +176,8 @@ const Detail = () => {
                                         </button>
                                     </div>
                                     {isBuy ? (
-                                        <div>
-                                            <h1 className="m-3">จำนวนที่ต้องจ่าย</h1>
+                                        <div className="">
+                                            <h1 className="mt-6">จำนวนที่ต้องจ่าย</h1>
                                             <div className="grid grid-cols-2 gap-2 p-2 m-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img
@@ -171,19 +190,27 @@ const Detail = () => {
                                                 <div>
                                                     <input
                                                         type="number"
-                                                        value={amount}
+                                                        value={amount || ""}
+                                                        max={cash?.totalSpent}
                                                         onChange={(e) => {
                                                             const value = e.target.value;
                                                             if (parseFloat(value) >= 0 || value === "") {
                                                                 setAmount(value);
                                                             }
+                                                            else {
+                                                                setAmount("")
+                                                            }
                                                         }}
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
+                                                    <h1 className="mt-4 flex justify-end">
+                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
+                                                    </h1>
+
                                                 </div>
                                             </div>
                                             <hr />
-                                            <h1 className="m-3">ได้รับประมาณ</h1>
+                                            <h1 className="mt-6">ได้รับประมาณ</h1>
                                             <div className="grid grid-cols-2 gap-2 p-2 m-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img src={coin.image} alt="" className="size-8" />
@@ -210,7 +237,7 @@ const Detail = () => {
                                         </div>
                                     ) : (
                                         <div>
-                                            <h1 className="m-3">จำนวนที่ต้องจ่าย</h1>
+                                            <h1 className="mt-6">จำนวนที่ต้องจ่าย</h1>
                                             <div className="grid grid-cols-2 gap-2 p-2 m-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img src={coin.image} alt="" className="size-8" />
@@ -221,12 +248,22 @@ const Detail = () => {
                                                 <div>
                                                     <input
                                                         type="number"
+                                                        value={amount || ""}
+                                                        onChange={(e) => {
+                                                            const value = e.target.value;
+                                                            if (parseFloat(value) >= 0 || value === "") {
+                                                                setAmount(value);
+                                                            }
+                                                            else {
+                                                                setAmount("")
+                                                            }
+                                                        }}
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md"
                                                     />
                                                 </div>
                                             </div>
                                             <hr />
-                                            <h1 className="m-3">ได้รับประมาณ</h1>
+                                            <h1 className="mt-6">ได้รับประมาณ</h1>
                                             <div className="grid grid-cols-2 gap-2 p-2 m-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img
@@ -240,7 +277,7 @@ const Detail = () => {
                                                     <p className="flex justify-end text-2xl">0.00</p>{" "}
                                                 </div>
                                             </div>
-                                            <div className="flex mt-3">
+                                            <div className="flex mt-4">
                                                 <button
                                                     type="submit"
                                                     className="w-full focus:outline-none text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
