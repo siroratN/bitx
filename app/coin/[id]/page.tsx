@@ -154,12 +154,12 @@ const Detail = () => {
                         <div className="mt-6">
                             <div>
                                 <div className="">
-                                    <div className="grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500">
+                                    <div className="grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-transparent">
                                         <button
                                             onClick={() => setIsBuy(true)}
                                             className={`font-semibold py-3 rounded-md transition-all duration-200 ${isBuy
-                                                ? "bg-white border-[1px] border-green-600 text-green-400"
-                                                : "bg-[#ebebeb] text-gray-400 border hover:bg-[#d7d6d6]"
+                                                ? "bg-white border-[1px] border-green-600 text-green-400 dark:bg-green-600 dark:border-green-600 dark:text-black"
+                                                : "bg-[#ebebeb] text-gray-400 border hover:bg-[#d7d6d6] dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                                 }`}
                                         >
                                             ซื้อ
@@ -168,8 +168,8 @@ const Detail = () => {
                                         <button
                                             onClick={() => setIsBuy(false)}
                                             className={`font-semibold py-3 rounded-md transition-all duration-200 ${!isBuy
-                                                ? "bg-white border-[1px] border-red-600 text-red-400"
-                                                : "bg-[#ebebeb] text-gray-400 border hover:bg-[#d7d6d6]"
+                                                ? "bg-white border-[1px] border-red-600 text-red-400 dark:bg-red-600 dark:border-red-600 dark:text-black"
+                                                : "bg-[#ebebeb] text-gray-400 border hover:bg-[#d7d6d6] dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                                 }`}
                                         >
                                             ขาย
