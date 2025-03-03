@@ -12,14 +12,15 @@ const nav = [
 
 const Navbar = () => {
   return (
-    <nav className='shadow-sm'>
-        <div className="container flex justify-between items-center py-4">
+    <nav className='shadow-sm '>
+        <div className="container flex justify-between items-center py-4 ">
             <div className='flex items-center gap-20  font-semibold text-lg '>
-              <p className="mr-2 text-[#FACC15]">BitX</p>
+              <p className="mr-2 font-medium text-[rgb(147,137,43)]">BitX</p>
               <div className='flex justify-between '>
                 {nav.map((item, index) => (
-                    <Link key={index} href={item.href} className="mr-7">
-                            <span className=" text-sm text-[#828997]">{item.label}</span>
+                    <Link key={index} href={item.href} className="mr-7 cursor-pointer hover:text-yellow-500 duration-500 hover:translate-y-[-3px]">
+                            <span className=" text-sm font-medium">{item.label}</span>
+
                     </Link>
                 ))}
               </div>

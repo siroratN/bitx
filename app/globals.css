@@ -5,7 +5,7 @@
 
 @layer components{
     .container{
-      @apply px-10 sm:px-36 mx-auto
+      @apply  px-1 sm:px-36 pt-[70px];
     }
     .content{
       @apply px-1 sm:px-36 py-[70px]
@@ -14,6 +14,17 @@
     .content2{
       @apply  px-4 py-5 sm:py-10 sm:px-0
     }
+    .transition-height {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .transition-height.open {
+      max-height: 500px; 
+      transition: max-height 0.3s ease-in;
+    }
+    
 }
 
 
