@@ -1,25 +1,85 @@
+"use client";
+import { ShoppingCart } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FetchTransaction } from "@/actions/activity/action";
+import Barcoin from "@/components/Homepage/barcoin";
+
 const Activity = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const res = await FetchTransaction();
+      setTransactions(res.transaction);
+      setLoading(false);
+    };
+
+    fetchTransactions();
+  }, []);
+
   return (
-    <div className="flex flex-col justify-center items-center p-2">
-      <h1 className="text-2xl">Transactions</h1>
-      <div>
-        <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full p-4">
-        <p className="mb-2">5 มกราคม 2565</p>
-          <div className="flex items-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-6 w-6 text-slate-600">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-            </svg>
-            <h5 className="ml-3 text-slate-800 text-xl font-semibold">
-              Website Review Check
-            </h5>
+    <div className="flex flex-col justify-center items-center mt-4 px-4">
+      <Barcoin />
+      <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mt-4">
+        Transactions
+      </h1>
+
+      <div className="mt-6 space-y-4">
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <p className="ml-4 text-gray-500 dark:text-gray-400">Loading...</p>
           </div>
-          <p className="block text-slate-600 leading-normal font-light mb-4">
-            Because it&apos;s about motivating the doers. Because I&apos;m here to follow my dreams and inspire others.
+        ) : transactions.length > 0 ? (
+          transactions.map((transaction, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col dark:from-gray-800 dark:to-gray-700 shadow-lg border border-gray-300 dark:border-gray-600 rounded-xl p-5 transition-all hover:scale-105 hover:shadow-xl"
+            >
+              <p className="mb-2 text-gray-500 dark:text-gray-400 text-sm">
+                {new Date(transaction.timestamp).toLocaleString("th-TH")}
+              </p>
+              <div className="grid grid-cols-3 gap-4 items-center">
+                <div className="flex justify-start">
+                  <ShoppingCart
+                    size={48}
+                    className="text-green-500 dark:text-green-400"
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                    {transaction.type === "BUY"
+                      ? `ซื้อ ${transaction.asset.name}`
+                      : `ขาย ${transaction.asset.name}`}
+                  </h1>
+                  <p
+                    className={`text-sm font-semibold ${transaction.status === "Success"
+                        ? "text-green-500"
+                        : "text-red-500"
+                      }`}
+                  >
+                    {transaction.status}
+                  </p>
+                </div>
+                <div className="flex flex-col justify-end text-right">
+                  <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                    {transaction.price} บาท
+                  </h1>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    ได้รับ <span className="text-green-400">{transaction.quantity}</span> {transaction.asset.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-600 dark:text-gray-400 text-center text-lg">
+            ไม่มีรายการ
           </p>
-          
-        </div>
+        )}
       </div>
     </div>
-  )
-}
-export default Activity
+  );
+};
+
+export default Activity;

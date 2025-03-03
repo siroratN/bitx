@@ -5,7 +5,7 @@ import Providers from "./Providers";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Nunito_Sans, Kanit } from 'next/font/google';
 
-const kanit = Kanit({ subsets: ['latin'], weight: ['400', '700'] });
+const kanit = Kanit({ subsets: ['latin'], weight: ['100', '500'] });
 
 export const metadata: Metadata = {
   title: "BitX",
