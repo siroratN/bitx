@@ -6,15 +6,16 @@ import { FetchCoinDataDetail } from "@/data/fetchCoinData";
 import { useParams } from "next/navigation";
 import { CoinChart } from "@/data/fetchCoinData";
 import LineChart from "@/components/LineChart/LineChart";
-import { buyCoin } from "@/actions/Buy/action";
+import { buyCoin, sellCoin } from "@/actions/Buy/action";
 import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
-import { FetchCash } from "@/actions/Cash/action";
+import { FetchCash, FetchCoin } from "@/actions/Cash/action";
 
 
 const Detail = () => {
     const { id } = useParams();
     const [coin, setCoin] = useState(null);
+    const [coinHave, setCoinHave] = useState(null);
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
@@ -53,15 +54,31 @@ const Detail = () => {
                 console.error("Error fetching cash:", error);
             }
         };
+
+        const getCoin = async () => {
+            try {
+                const data = await FetchCoin(id as string);
+                console.log("dd", data);
+                setCoinHave(data.coin);
+            } catch (error) {
+                console.error("Error fetching coin:", error);
+            }
+        }
         getCash();
         getChart();
         getData();
+        getCoin();
     }, [id]);
     useEffect(() => {
         if (coin && amount) {
             setQuantity(parseFloat(amount) / coin?.current_price);
         }
     }, [amount, coin]);
+    useEffect(() => {
+        if (coin && quantity) {
+            setAmount((quantity * coin?.current_price).toFixed(2));
+        }
+    }, [quantity, coin]);
 
     const handleBuyCoin = async () => {
         if (!amount || !quantity) {
@@ -82,6 +99,30 @@ const Detail = () => {
             toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
         }
     };
+    const handleSellCoin = async () => {
+        if (quantity > coinHave?.quantity) {
+            toast.error(`คุณมีเหรียญไม่เพียงพอสำหรับการขาย (คุณมี ${coinHave?.quantity} เหรียญ)`);
+            return;
+        }
+
+        console.log("coinHave", coinHave);
+
+        const newAmount = quantity * coin?.current_price;
+        setAmount(newAmount.toFixed(2));
+        const response = await sellCoin({
+            coinId: coin.id,
+            price: parseFloat(amount), // ราคาขาย
+            quantity: quantity, // จำนวนที่ขาย
+        });
+        console.log(amount, quantity);
+        if (response.success) {
+            toast.success("การขายเหรียญสำเร็จ!");
+            setAmount("");
+            setQuantity(0);
+        } else {
+            toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
+        }
+    }
     return (
         <>
             {coin ? (
@@ -204,7 +245,7 @@ const Detail = () => {
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                     <h1 className="mt-4 flex justify-end">
-                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
+                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent.toFixed(2)}</span> <span className="ml-2">บาท</span>
                                                     </h1>
 
                                                 </div>
@@ -248,20 +289,23 @@ const Detail = () => {
                                                 <div>
                                                     <input
                                                         type="number"
-                                                        value={amount || ""}
+                                                        value={quantity || ""}
+                                                        max={coinHave?.quantity}
                                                         onChange={(e) => {
                                                             const value = e.target.value;
                                                             if (parseFloat(value) >= 0 || value === "") {
-                                                                setAmount(value);
-                                                            }
-                                                            else {
-                                                                setAmount("")
+                                                                setQuantity(value);
                                                             }
                                                         }}
-                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md"
+                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                 </div>
                                             </div>
+                                            <h1 className="flex justify-end -mt-4 mb-8 mr-6">
+                                                เหรียญที่มีทั้งหมด <span className="underline decoration-green-400 ml-2 text-green-400">{coinHave?.quantity||"0.0000000"}
+
+                                                </span> <span className="ml-2"></span>
+                                            </h1>
                                             <hr />
                                             <h1 className="mt-6">ได้รับประมาณ</h1>
                                             <div className="grid grid-cols-2 gap-2 p-2 m-6">
@@ -274,12 +318,13 @@ const Detail = () => {
                                                     <span className="text-2xl">THB</span>
                                                 </div>
                                                 <div>
-                                                    <p className="flex justify-end text-2xl">0.00</p>{" "}
+                                                    <p className="flex justify-end text-2xl">{amount || "0.00"}</p>
                                                 </div>
                                             </div>
                                             <div className="flex mt-4">
                                                 <button
                                                     type="submit"
+                                                    onClick={handleSellCoin}
                                                     className="w-full focus:outline-none text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                                                 >
                                                     ขาย

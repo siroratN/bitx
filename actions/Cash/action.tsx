@@ -31,3 +31,31 @@ export async function FetchCash () {
         return { error };
     }
 }
+export async function FetchCoin(coinId: string){
+    try {
+        const user = await currentUser();
+        if (!user) {
+            return { message: "User not authenticated" };
+        }
+
+        const getuser = await db.profile.findFirst({
+            where: { clerkId: user.id },
+        });
+
+        if (!getuser) {
+            return { message: "User profile not found" };
+        }
+
+        const coin = await db.asset.findFirst({
+            where: {
+                ownerId: getuser.id,
+                name: coinId,
+            },
+        });
+
+        return { coin };
+    } catch (error) {
+        console.error("Error fetching coin:", error);
+        return { error };
+    }
+}
