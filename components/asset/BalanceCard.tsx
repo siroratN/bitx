@@ -39,9 +39,9 @@ const BalanceCard = ({ allMyAssets }) => {
         <CardDescription>
           <div className="flex items-center justify-between">
             <CardDescription className="text-xl my-3 text-center w-full">
-              {balance.toLocaleString()} THB 
+              {balance.toFixed(2).toLocaleString()} THB 
               <span className={`ml-2 ${profit >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {profit >= 0 ? `+${profit.toFixed(2).toLocaleString()} (${profitPercent.toFixed(2).toLocaleString()}%)` : `${profit} (${profitPercent.toFixed(2)}%)`}
+                {profit >= 0 ? `+${profit.toFixed(2).toLocaleString()} (${profitPercent.toFixed(2).toLocaleString()}%)` : `${profit.toFixed(2).toLocaleString()} (${profitPercent.toFixed(2).toLocaleString()}%)`}
               </span>
             </CardDescription>
           </div>

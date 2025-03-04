@@ -103,7 +103,7 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
         }
 
         const { coinId, price, quantity } = params;
-        console.log('edok',params);
+        console.log('edok', params);
 
         const existingAsset = await db.asset.findFirst({
             where: {
@@ -122,19 +122,18 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
 
         const totalSpentdeduct = (existingAsset.totalSpent / existingAsset.quantity) * quantity;
         const profit = (price * quantity) - totalSpentdeduct;
-        console.log('profit',profit);
-        console.log('totalSpentdeduct',totalSpentdeduct);
+        console.log('profit', profit);
+        console.log('totalSpentdeduct', totalSpentdeduct);
 
         await db.asset.update({
             where: { id: existingAsset.id },
             data: {
                 quantity: { decrement: Number(quantity) },
+                totalSpent: existingAsset.totalSpent - totalSpentdeduct, // ✅ แก้ตรงนี้
             },
         });
 
-        
-        
-        const edokcash = await db.asset.update({
+        await db.asset.update({
             where: {
                 ownerId_name: {
                     ownerId: getuser.id,
@@ -147,8 +146,6 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
                 },
             },
         });
-
-        console.log('edokcash',edokcash);
 
         await db.transaction.create({
             data: {

@@ -291,7 +291,7 @@ const Detail = () => {
                                                     <DrawerContent>
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
                                                             <DrawerHeader>
-                                                                <DrawerTitle  ><p className='font-light text-blue-500' >ยืนยันการการซื้อ</p></DrawerTitle>
+                                                                <DrawerTitle  ><p className='font-normal text-blue-800' >ยืนยันการการซื้อ</p></DrawerTitle>
                                                                 <hr className='m-3'/>
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>

@@ -14,18 +14,18 @@ model Profile {
   firstName    String
   lastName     String
   email        String
-  assets       Asset[]
-  transactions Transaction[]
+  assets       Asset[]      @relation(onDelete: Cascade)
+  transactions Transaction[] @relation(onDelete: Cascade) 
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
 
 model Asset {
   id           Int          @id @default(autoincrement())
-  name       String
-  owner        Profile      @relation(fields: [ownerId], references: [id])
+  name         String
+  owner        Profile      @relation(fields: [ownerId], references: [id], onDelete: Cascade) 
   ownerId      Int
-  transactions Transaction[]
+  transactions Transaction[] @relation(onDelete: Cascade)
   totalSpent   Float
   quantity     Float? 
   @@unique([ownerId, name])
@@ -34,9 +34,9 @@ model Asset {
 model Transaction {
   id         Int              @id @default(autoincrement())
   type       TransactionType
-  profile    Profile          @relation(fields: [profileId], references: [id])
+  profile    Profile          @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId  Int
-  asset      Asset            @relation(fields: [assetId], references: [id])
+  asset      Asset            @relation(fields: [assetId], references: [id], onDelete: Cascade) 
   assetId    Int
   quantity   Float
   price      Float
