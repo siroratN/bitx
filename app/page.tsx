@@ -6,6 +6,8 @@ import CoinAllTable from "@/components/Homepage/CoinAllTable";
 import Profit from "@/components/Profit/Profit";
 import { createProfile } from "@/actions/Profile/action";
 import { createCash } from "@/actions/Coin/action";
+import HotCard from "@/components/Homepage/HotCard";
+import { ChartNoAxesGantt } from 'lucide-react';
 
 
 const Page = () => {
@@ -55,7 +57,15 @@ const Page = () => {
           </div>
         )}
       </SignedIn> */}
-
+      <div>
+        <p className='text-2xl mb-5 mt-10 flex items-center mr-10'>Market Overview <ChartNoAxesGantt /></p>
+        <div className='grid grid-cols-4'>
+          <HotCard/>
+          <HotCard/>
+          <HotCard/>
+          <HotCard/>
+        </div>
+      </div>
       <CoinAllTable />
     </div>
   );

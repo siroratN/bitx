@@ -52,7 +52,7 @@ export default function CoinAllTable() {
     <div className='my-16'>
       <div className='flex items-center justify-between gap-3 mb-10 rounded-sm'>
         <div className="flex gap-5 items-center">
-          <p className='text-4xl font-bold'>Cryptocurrency Market</p>
+          <p className='text-4xl font-semibold'>Cryptocurrency Market</p>
           <p className='text-red-700'><TrendingUp /></p>
         </div>
         <div className="relative w-[250px]">

@@ -26,7 +26,7 @@ const Menu = () => {
                 
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="font-thin" >My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 
                 <SignedOut>

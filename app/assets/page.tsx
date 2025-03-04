@@ -4,7 +4,7 @@ import { getAllAsset } from "@/actions/Coin/action"
 import { useEffect, useState } from "react"
 import { UserRound } from 'lucide-react';
 import BalanceCard from "@/components/asset/BalanceCard";
-import DetailAsset from "@/components/asset/DetailAsset";
+import { Button } from "@/components/ui/button";
 
 const Assets = () => {
   const [user, setUser] = useState(null)
@@ -53,6 +53,8 @@ const Assets = () => {
         </div>
 
       </div>
+
+     
     </div>
   )
 }

@@ -10,6 +10,17 @@ import { calProfit } from "@/actions/Coin/action";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from "../ui/button";
 import Link from "next/link";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
 
 const CoinCard = (props) => {
   const { data } = props;
@@ -98,6 +109,10 @@ const CoinCard = (props) => {
                             <CardDescription className='text-sm'>{alldetail.myCoin.quantity}</CardDescription>
                         </div>
                         <div className='flex justify-between items-center text-sm '>
+                            <CardDescription className='text-sm'>เงินรวมที่จ่ายไป </CardDescription>
+                            <CardDescription className='text-sm'>{alldetail.myCoin.totalSpent}</CardDescription>
+                        </div>
+                        <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>ราคาเฉลี่ยต่อเหรียญ</CardDescription>
                             <CardDescription className='text-sm'>{alldetail.avgPriceCoin.toLocaleString()}</CardDescription>
                         </div>
@@ -118,8 +133,8 @@ const CoinCard = (props) => {
                             <CardDescription className='text-sm'>กำไร-ขาดทุน</CardDescription>
                             <CardDescription className='text-sm'>{profit.toLocaleString()}</CardDescription>
                         </div>
-                        <div className='w-full grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500'>
-                        <Button className='bg-[#ebebeb] text-sm text-black py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
+                        <div className='w-full mt-3 grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500'>
+                          <Button className='bg-[#ebebeb] text-sm text-black py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
                             <Link href={`./coin/${data.name}`}>Buy</Link>
                           </Button>
 
@@ -129,6 +144,9 @@ const CoinCard = (props) => {
                                             
                         </div>
                       </div>
+
+                     
+
             </div>
           )}
         </Card>

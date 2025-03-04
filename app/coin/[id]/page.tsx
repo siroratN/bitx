@@ -10,6 +10,17 @@ import { buyCoin, sellCoin } from "@/actions/Buy/action";
 import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
 import { FetchCash, FetchCoin } from "@/actions/Cash/action";
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 
 
 const Detail = () => {
@@ -132,7 +143,7 @@ const Detail = () => {
                         <div className="flex flex-col gap-4">
                             <div className="grid grid-cols-3">
                                 <div className="col-span-2">
-                                    <div className="flex flex-row gap-2">
+                                    <div className="flex flex-row gap-2 items-center justify-center">
                                         <img className="size-20" src={coin.image} alt={coin.name} />
                                         <p className="p-4 text-2xl">
                                             {coin.id}{" "}
@@ -245,7 +256,7 @@ const Detail = () => {
                                                         className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
                                                     />
                                                     <h1 className="mt-4 flex justify-end">
-                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent.toFixed(2)}</span> <span className="ml-2">บาท</span>
+                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
                                                     </h1>
 
                                                 </div>
@@ -266,13 +277,48 @@ const Detail = () => {
                                                 </div>
                                             </div>
                                             <div className="flex mt-3">
-                                                <button
+                                                {/* <button
                                                     type="submit"
                                                     onClick={handleBuyCoin}
                                                     className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                                                 >
                                                     ซื้อ
-                                                </button>
+                                                </button> */}
+                                                <Drawer >
+                                                    <DrawerTrigger asChild>
+                                                        <Button variant="outline" className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
+                                                    </DrawerTrigger>
+                                                    <DrawerContent>
+                                                        <div className="mx-auto w-full max-w-sm mt-3 mb-10">
+                                                            <DrawerHeader>
+                                                                <DrawerTitle  ><p className='font-light text-blue-500' >ยืนยันการการซื้อ</p></DrawerTitle>
+                                                                <hr className='m-3'/>
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
+                                                                    <DrawerDescription>{amount}</DrawerDescription>
+                                                                </div>
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
+                                                                    <DrawerDescription>{quantity}</DrawerDescription>
+                                                                </div>
+                                                                <hr className='m-3'/>
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>ยอดเงินคงเหลือ</DrawerDescription>
+                                                                    <DrawerDescription>{cash.totalSpent - amount}</DrawerDescription>
+                                                                </div>
+                                                            </DrawerHeader>
+                                                        </div>
+
+                                                        <div>
+                                                        <DrawerFooter className='mx-[550px]'>
+                                                            <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
+                                                            <DrawerClose asChild>
+                                                            <Button variant="outline">ยกเลิก</Button>
+                                                            </DrawerClose>
+                                                        </DrawerFooter>
+                                                        </div>
+                                                    </DrawerContent>
+                                                </Drawer>
 
                                             </div>
                                         </div>
