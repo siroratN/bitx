@@ -6,6 +6,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+import { CirclePlus } from 'lucide-react';
+import { addCash } from "@/actions/Cash/action";
+import Link from 'next/link';
+
+
 
 const BalanceCard = ({ allMyAssets }) => {
   const [balance, setBalance] = useState(0);
@@ -25,15 +30,34 @@ const BalanceCard = ({ allMyAssets }) => {
       console.log("Total Balance:", total);
     };
 
+
     fetchBalance();
   }, [allMyAssets]);
+  // const handleSubmit = async () => {
+  //   try {
+  //     const price = 500;
+  //     const { redirectUrl } = await addCash(price);
+  //     window.location.href = redirectUrl;
+
+  //   }
+  //   catch (error) {
+  //     console.log("Error adding cash:", error);
+  //   }
+// };
 
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>
-          <div className="flex items-center">
+          <div className="grid grid-cols-2">
+            <div>
             <CardDescription className="font-normal text-lg ">Assets Balance</CardDescription>
+            </div>
+            <div className="flex justify-end text-green-400">
+            <Link href="/cash/">
+                  <CirclePlus size={22} />
+              </Link>
+            </div>
           </div>
         </CardTitle>
         <CardDescription>

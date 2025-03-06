@@ -21,6 +21,7 @@
     "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.6",
+    "@stripe/stripe-js": "^5.8.0",
     "@types/axios": "^0.9.36",
     "LineChart": "link:@mui/x-charts/LineChart",
     "axios": "^1.7.9",
@@ -33,6 +34,7 @@
     "react-dom": "^19.0.0",
     "react-google-charts": "^5.2.1",
     "react-toastify": "^11.0.5",
+    "stripe": "^17.7.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2"
