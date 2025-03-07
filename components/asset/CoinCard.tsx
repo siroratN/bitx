@@ -134,11 +134,11 @@ const CoinCard = (props) => {
                             <CardDescription className='text-sm'>{profit.toLocaleString()}</CardDescription>
                         </div>
                         <div className='w-full mt-3 grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500'>
-                          <Button className='bg-[#ebebeb] text-sm text-black py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
+                          <Button className='bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
                             <Link href={`./coin/${data.name}`}>Buy</Link>
                           </Button>
 
-                          <Button className='bg-[#ebebeb] text-sm text-black py-1 px-2 rounded-sm hover:text-red-400 hover:border-red-500 transition-colors duration-200 hover:bg-white'>
+                          <Button className='bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-red-400 hover:border-red-500 transition-colors duration-200 hover:bg-white'>
                             <Link href={`./coin/${data.name}`}>Sell</Link>
                           </Button>
                                             
