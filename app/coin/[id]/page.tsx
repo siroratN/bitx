@@ -1,6 +1,6 @@
 "use client";
 import { ButtonIcon } from "@/components/ui/ButtonIcon";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Divide } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FetchCoinDataDetail } from "@/data/fetchCoinData";
 import { useParams } from "next/navigation";
@@ -11,21 +11,24 @@ import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
 import { FetchCash, FetchCoin } from "@/actions/Cash/action";
 import { Button } from "@/components/ui/button"
+import { Trash2 } from 'lucide-react';
+import './page.css'
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
 } from "@/components/ui/drawer"
 
 
 const Detail = () => {
     const { id } = useParams();
     const [coin, setCoin] = useState(null);
+    const [fullSell, setFullSell] = useState(false);
     const [coinHave, setCoinHave] = useState(null);
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
@@ -81,13 +84,22 @@ const Detail = () => {
         getCoin();
     }, [id]);
     useEffect(() => {
-        if (coin && amount) {
+        if (fullSell && coinHave) {
+            const newQuantity = coinHave.quantity;
+            setQuantity(newQuantity);
+            setAmount(newQuantity * coin?.current_price);
+        }
+    }, [fullSell, coinHave, coin]);
+
+    useEffect(() => {
+        if (coin && amount !== "") {
             setQuantity(parseFloat(amount) / coin?.current_price);
         }
     }, [amount, coin]);
+
     useEffect(() => {
-        if (coin && quantity) {
-            setAmount((quantity * coin?.current_price).toFixed(2));
+        if (coin && quantity !== "") {
+            setAmount(quantity * coin?.current_price);
         }
     }, [quantity, coin]);
 
@@ -119,7 +131,7 @@ const Detail = () => {
         console.log("coinHave", coinHave);
 
         const newAmount = quantity * coin?.current_price;
-        setAmount(newAmount.toFixed(2));
+        setAmount(newAmount);
         const response = await sellCoin({
             coinId: coin.id,
             price: parseFloat(amount), // ราคาขาย
@@ -230,7 +242,7 @@ const Detail = () => {
                                     {isBuy ? (
                                         <div className="">
                                             <h1 className="mt-6">จำนวนที่ต้องจ่าย</h1>
-                                            <div className="grid grid-cols-2 gap-2 p-2 m-6">
+                                            <div className="grid grid-cols-2 gap-2 p-2 mt-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img
                                                         src="https://cdn.bitkubnow.com/coins/icon/32/THB.png"
@@ -253,17 +265,18 @@ const Detail = () => {
                                                                 setAmount("")
                                                             }
                                                         }}
-                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
+                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2 no-arrow"
                                                     />
-                                                    <h1 className="mt-4 flex justify-end">
-                                                        ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
-                                                    </h1>
+
 
                                                 </div>
                                             </div>
+                                            <h1 className="flex justify-end mt-4 mb-8">
+                                                ยอดเงินคงเหลือ <span className="underline decoration-green-400 ml-2 text-green-400">{cash?.totalSpent}</span> <span className="ml-2">บาท</span>
+                                            </h1>
                                             <hr />
                                             <h1 className="mt-6">ได้รับประมาณ</h1>
-                                            <div className="grid grid-cols-2 gap-2 p-2 m-6">
+                                            <div className="grid grid-cols-2 gap-2 p-2 mt-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img src={coin.image} alt="" className="size-8" />
                                                     <span className="text-2xl">
@@ -292,7 +305,7 @@ const Detail = () => {
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
                                                             <DrawerHeader>
                                                                 <DrawerTitle  ><p className='font-normal text-blue-800' >ยืนยันการการซื้อ</p></DrawerTitle>
-                                                                <hr className='m-3'/>
+                                                                <hr className='m-3' />
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
                                                                     <DrawerDescription>{amount}</DrawerDescription>
@@ -301,7 +314,7 @@ const Detail = () => {
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
                                                                     <DrawerDescription>{quantity}</DrawerDescription>
                                                                 </div>
-                                                                <hr className='m-3'/>
+                                                                <hr className='m-3' />
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>ยอดเงินคงเหลือ</DrawerDescription>
                                                                     <DrawerDescription>{cash.totalSpent - amount}</DrawerDescription>
@@ -310,12 +323,12 @@ const Detail = () => {
                                                         </div>
 
                                                         <div>
-                                                        <DrawerFooter className='mx-[550px]'>
-                                                            <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
-                                                            <DrawerClose asChild>
-                                                            <Button variant="outline">ยกเลิก</Button>
-                                                            </DrawerClose>
-                                                        </DrawerFooter>
+                                                            <DrawerFooter className='mx-[550px]'>
+                                                                <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
+                                                                <DrawerClose asChild>
+                                                                    <Button variant="outline">ยกเลิก</Button>
+                                                                </DrawerClose>
+                                                            </DrawerFooter>
                                                         </div>
                                                     </DrawerContent>
                                                 </Drawer>
@@ -324,8 +337,26 @@ const Detail = () => {
                                         </div>
                                     ) : (
                                         <div>
-                                            <h1 className="mt-6">จำนวนที่ต้องจ่าย</h1>
-                                            <div className="grid grid-cols-2 gap-2 p-2 m-6">
+                                            <div className="grid grid-cols-2 mt-6">
+                                                <h1 className="">จำนวนที่ต้องขาย</h1>
+                                                <div className="text-sm flex justify-end">
+                                                    <button
+                                                        className={`py-2 px-4 border font-semibold rounded shadow
+                                                        ${fullSell
+                                                                ? "bg-green-400 text-white border-green-400" 
+                                                                : "bg-white text-gray-800 border-gray-400 hover:bg-green-400 hover:border-green-400 dark:bg-gray-700 dark:text-white"  
+                                                            }`}
+                                                        onClick={() => {
+                                                            setFullSell(true);
+                                                            console.log("ddd ", amount);
+                                                        }}
+                                                    >
+                                                        ขายทั้งหมด
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-2 p-2 mt-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img src={coin.image} alt="" className="size-8" />
                                                     <span className="text-2xl">
@@ -333,28 +364,53 @@ const Detail = () => {
                                                     </span>
                                                 </div>
                                                 <div>
-                                                    <input
-                                                        type="number"
-                                                        value={quantity || ""}
-                                                        max={coinHave?.quantity}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            if (parseFloat(value) >= 0 || value === "") {
-                                                                setQuantity(value);
-                                                            }
-                                                        }}
-                                                        className="p-2 w-full border-[1px] border-gray-300 rounded-md text-end pr-2"
-                                                    />
+
+                                                    <div className="flex items-center gap-3">
+
+                                                        <input
+                                                            type="number"
+                                                            value={fullSell ? coinHave?.quantity : quantity}
+                                                            max={coinHave?.quantity}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value;
+
+                                                                if (value === "") {
+                                                                    setQuantity("");
+                                                                    setAmount("");
+                                                                    setFullSell(false);
+                                                                } else if (!isNaN(value) && parseFloat(value) >= 0) {
+                                                                    setQuantity(value);
+                                                                }
+                                                            }}
+                                                            className="p-2 w-full border border-gray-300 rounded-md text-end no-arrow"
+                                                            disabled={fullSell}
+                                                        />
+
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setQuantity(0);
+                                                                setAmount("");
+                                                                setFullSell(false)
+                                                            }}
+                                                            className="ml-2 text-gray-500 hover:text-red-500"
+                                                        >
+                                                            <Trash2 size={25} />
+                                                        </button>
+
+                                                    </div>
+
                                                 </div>
+
                                             </div>
-                                            <h1 className="flex justify-end -mt-4 mb-8 mr-6">
-                                                เหรียญที่มีทั้งหมด <span className="underline decoration-green-400 ml-2 text-green-400">{coinHave?.quantity||"0.0000000"}
+                                            <h1 className="flex justify-end mt-2 mb-8 -mr-2">
+                                                เหรียญที่มีทั้งหมด <span className="underline decoration-green-400 ml-2 text-green-400">{coinHave?.quantity || "0.0000000"}
 
                                                 </span> <span className="ml-2"></span>
                                             </h1>
                                             <hr />
                                             <h1 className="mt-6">ได้รับประมาณ</h1>
-                                            <div className="grid grid-cols-2 gap-2 p-2 m-6">
+                                            <div className="grid grid-cols-2 gap-2 p-2 mt-6">
                                                 <div className="flex flex-row gap-2">
                                                     <img
                                                         src="https://cdn.bitkubnow.com/coins/icon/32/THB.png"
