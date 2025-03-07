@@ -5,7 +5,6 @@ import Link from 'next/link';
 const Profit = () => {
   return (
     <div className='p-5  rounded-md shadow-lg'>
-        {/* <p className='text-2xl mb-5 font-semibold text-gray-600'>PORTFOLIO</p> */}
         <div className='flex item-center justify-between'>
             <div className='flex gap-2'>
                 <Coins className='text-sm' />

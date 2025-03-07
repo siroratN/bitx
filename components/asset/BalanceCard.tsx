@@ -46,7 +46,7 @@ const BalanceCard = ({ allMyAssets }) => {
 // };
 
   return (
-    <Card className="w-full">
+    <Card className="p-4 w-[350px] bg-white dark:bg-[#f0f0f0] rounded-xl shadow-md">
       <CardHeader>
         <CardTitle>
           <div className="grid grid-cols-2">
@@ -62,7 +62,7 @@ const BalanceCard = ({ allMyAssets }) => {
         </CardTitle>
         <CardDescription>
           <div className="flex items-center justify-between">
-            <CardDescription className="text-xl my-3 text-center w-full">
+            <CardDescription className="text-xl my-3 text-center w-full font-normal">
               {balance.toFixed(2).toLocaleString()} THB 
               <span className={`ml-2 ${profit >= 0 ? "text-green-400" : "text-red-400"}`}>
                 {profit >= 0 ? `+${profit.toFixed(2).toLocaleString()} (${profitPercent.toFixed(2).toLocaleString()}%)` : `${profit.toFixed(2).toLocaleString()} (${profitPercent.toFixed(2).toLocaleString()}%)`}

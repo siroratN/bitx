@@ -14,8 +14,9 @@ model Profile {
   firstName    String
   lastName     String
   email        String
-  assets       Asset[]      @relation(onDelete: Cascade)
-  transactions Transaction[] @relation(onDelete: Cascade) 
+  assets       Asset[]     
+  transactions Transaction[] 
+  favorites    Favorite[]   
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
@@ -25,7 +26,7 @@ model Asset {
   name         String
   owner        Profile      @relation(fields: [ownerId], references: [id], onDelete: Cascade) 
   ownerId      Int
-  transactions Transaction[] @relation(onDelete: Cascade)
+  transactions Transaction[] 
   totalSpent   Float
   quantity     Float? 
   @@unique([ownerId, name])
@@ -36,11 +37,20 @@ model Transaction {
   type       TransactionType
   profile    Profile          @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId  Int
-  asset      Asset            @relation(fields: [assetId], references: [id], onDelete: Cascade) 
+  asset      Asset            @relation(fields: [assetId], references: [id], onDelete: Cascade)   
   assetId    Int
   quantity   Float
   price      Float
   timestamp  DateTime         @default(now())
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade) 
+  profileId  Int
+  createdAt  DateTime @default(now())
+  coinName   String
+  @@unique([profileId, coinName]) 
 }
 
 enum TransactionType {

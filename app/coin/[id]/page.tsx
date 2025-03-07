@@ -1,6 +1,6 @@
 "use client";
-import { ButtonIcon } from "@/components/ui/ButtonIcon";
-import { TrendingUp, TrendingDown, Divide } from "lucide-react";
+import { ButtonIconUnFav } from "@/components/ui/ButtonIcoUnFav";
+import { TrendingUp, TrendingDown, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FetchCoinDataDetail } from "@/data/fetchCoinData";
 import { useParams } from "next/navigation";
@@ -11,8 +11,6 @@ import { toast } from 'react-toastify';
 import Barcoin from "@/components/Homepage/barcoin";
 import { FetchCash, FetchCoin } from "@/actions/Cash/action";
 import { Button } from "@/components/ui/button"
-import { Trash2 } from 'lucide-react';
-import './page.css'
 import {
     Drawer,
     DrawerClose,
@@ -23,9 +21,12 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+import { useClerk } from '@clerk/clerk-react';
+
 
 
 const Detail = () => {
+    const { isLoaded, user, openSignIn } = useClerk(); 
     const { id } = useParams();
     const [coin, setCoin] = useState(null);
     const [fullSell, setFullSell] = useState(false);
@@ -60,14 +61,23 @@ const Detail = () => {
         const getCash = async () => {
             try {
                 const data = await FetchCash();
-                console.log(data);
+                console.log("Fetched data:", data);
+        
+                if (!data || !data.cash) {
+                    setCash(null); 
+                    console.warn("No cash data found, setting cash to empty");
+                    return;
+                }
+        
                 setCash(data.cash);
-                console.log(data.cash);
-                console.log(data.cash.totalSpent);
+                console.log("Cash:", data.cash);
+                console.log("Total Spent:", data.cash.totalSpent);
             } catch (error) {
                 console.error("Error fetching cash:", error);
+                setCash(null); 
             }
         };
+        
 
         const getCoin = async () => {
             try {
@@ -104,16 +114,22 @@ const Detail = () => {
     }, [quantity, coin]);
 
     const handleBuyCoin = async () => {
+        if (!user) { 
+            openSignIn({ mode: 'modal' }); 
+            return; 
+        } 
+        
         if (!amount || !quantity) {
             toast.error("กรุณากรอกจำนวนเงินที่ต้องการซื้อ");
             return;
         }
+    
         const response = await buyCoin({
             coinId: coin.id,
             price: parseFloat(amount),
             quantity: quantity,
         });
-
+    
         if (response.success) {
             toast.success("การซื้อเหรียญสำเร็จ!");
             setAmount("");
@@ -122,6 +138,8 @@ const Detail = () => {
             toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
         }
     };
+    
+
     const handleSellCoin = async () => {
         if (quantity > coinHave?.quantity) {
             toast.error(`คุณมีเหรียญไม่เพียงพอสำหรับการขาย (คุณมี ${coinHave?.quantity} เหรียญ)`);
@@ -163,7 +181,7 @@ const Detail = () => {
                                                 {coin.symbol.toUpperCase()}
                                             </span>
                                             <span className="px-2 ml-1 mt-2 inline-flex items-center">
-                                                <ButtonIcon />
+                                                <ButtonIconUnFav/>
                                             </span>
                                         </p>
                                     </div>
@@ -289,14 +307,8 @@ const Detail = () => {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="flex mt-3">
-                                                {/* <button
-                                                    type="submit"
-                                                    onClick={handleBuyCoin}
-                                                    className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                                >
-                                                    ซื้อ
-                                                </button> */}
+                                      
+                                                <div className="flex mt-3">
                                                 <Drawer >
                                                     <DrawerTrigger asChild>
                                                         <Button variant="outline" className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
@@ -305,7 +317,7 @@ const Detail = () => {
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
                                                             <DrawerHeader>
                                                                 <DrawerTitle  ><p className='font-normal text-blue-800' >ยืนยันการการซื้อ</p></DrawerTitle>
-                                                                <hr className='m-3' />
+                                                                <hr className='m-3'/>
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
                                                                     <DrawerDescription>{amount}</DrawerDescription>
@@ -314,7 +326,7 @@ const Detail = () => {
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
                                                                     <DrawerDescription>{quantity}</DrawerDescription>
                                                                 </div>
-                                                                <hr className='m-3' />
+                                                                <hr className='m-3'/>
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>ยอดเงินคงเหลือ</DrawerDescription>
                                                                     <DrawerDescription>{cash.totalSpent - amount}</DrawerDescription>
@@ -323,17 +335,18 @@ const Detail = () => {
                                                         </div>
 
                                                         <div>
-                                                            <DrawerFooter className='mx-[550px]'>
-                                                                <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
-                                                                <DrawerClose asChild>
-                                                                    <Button variant="outline">ยกเลิก</Button>
-                                                                </DrawerClose>
-                                                            </DrawerFooter>
+                                                        <DrawerFooter className='mx-[550px]'>
+                                                            <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
+                                                            <DrawerClose asChild>
+                                                            <Button variant="outline">ยกเลิก</Button>
+                                                            </DrawerClose>
+                                                        </DrawerFooter>
                                                         </div>
                                                     </DrawerContent>
                                                 </Drawer>
 
                                             </div>
+                                            
                                         </div>
                                     ) : (
                                         <div>

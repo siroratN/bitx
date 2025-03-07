@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { UserRound } from 'lucide-react';
 import BalanceCard from "@/components/asset/BalanceCard";
 import { Button } from "@/components/ui/button";
+import { CircleUserRound } from 'lucide-react';
 
 const Assets = () => {
   const [user, setUser] = useState(null)
@@ -25,11 +26,11 @@ const Assets = () => {
   return (
     <div className="content2 flex flex-col gap-[13px]">
       <div className='flex items-center gap-3 justify-between px-[5px]'>
-        <div className='flex gap-4'>
-          <UserRound />
-          <p className='text-xl'>Account: {user?.firstName} {user?.lastName}</p>
+        <div className='flex gap-4 items-center'>
+          <CircleUserRound />
+          <p className='text-2xl font-sans'>{user?.firstName} {user?.lastName}</p>
         </div>
-        <div className="flex flex-col gap-2 w-[600px]">
+        <div className="flex flex-col gap-2 w-[400px]">
           <BalanceCard allMyAssets={user?.assets} />
         </div>
       </div>
@@ -37,7 +38,9 @@ const Assets = () => {
       <div className='w-full'>
         <div className='flex flex-col gap-10'>
           <div className="sm:w-full flex flex-col">
-            <p className='mb-7 mt-10 text-xl'>Your Assets : {user?.assets.length}</p>
+            <div className=' rounded-xl  mt-5 mb-8 '>
+              <p className='text-2xl font-normal'>Your Assets : {user?.assets.length}</p>
+            </div>
             <div className={ 'grid grid-cols-3 gap-5'}>
               {user?.assets ? (
                 user.assets.map((data) => (
