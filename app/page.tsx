@@ -3,7 +3,6 @@ import { useEffect} from "react";
 import { SignedIn, SignedOut, useAuth} from "@clerk/nextjs";
 import Barcoin from "@/components/Homepage/barcoin";
 import CoinAllTable from "@/components/Homepage/CoinAllTable";
-import Profit from "@/components/Profit/Profit";
 import { createProfile } from "@/actions/Profile/action";
 import { createCash } from "@/actions/Coin/action";
 import HotCard from "@/components/Homepage/HotCard";

@@ -20,7 +20,7 @@ const Transactions = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center mt-4 px-4">
+    <div className="flex flex-col justify-center items-center mt-[-8px] px-4">
       <Barcoin />
       <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mt-4">
         Transactions

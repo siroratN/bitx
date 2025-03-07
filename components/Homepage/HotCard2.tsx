@@ -71,9 +71,9 @@ export default function HotCard2() {
           {data.map((coin, index) => (
             <div
               key={index}
-              className="flex justify-between items-center py-2 border-b last:border-b-0"
+              className="flex justify-between items-center py-2 px-5  border-b last:border-b-0"
             >
-              <div className="w-full text-right flex justify-between">
+              <div className="w-full text-right flex justify-between ">
                 <p className="text-sm font-sans text-black">{coin.name}</p>
                 {coin.name === "Cash" ? (
                   <p className="text-xs font-normal text-black flex items-center">
