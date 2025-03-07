@@ -21,7 +21,7 @@ export default function RootLayout({
         <body className={`${kanit.className}`}>
           <Providers>
             <header className="fixed top-0 left-0 w-full">
-              <Navbar />
+              <Navbar  />
             </header>
             <main className="content">
               {children}

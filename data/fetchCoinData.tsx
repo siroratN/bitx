@@ -15,7 +15,6 @@ export async function FetchCoinData(): Promise<Coin[]> {
         'x-cg-demo-api-key': 'CG-dAjBsmxLPg75euZpbpFKPpsm',
       },
     })
-    // console.log('res: ', response)
     return response.data
   } catch (error) {
     console.error('Error fetching coin data:', error)

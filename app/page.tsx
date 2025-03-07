@@ -8,6 +8,7 @@ import { createProfile } from "@/actions/Profile/action";
 import { createCash } from "@/actions/Coin/action";
 import HotCard from "@/components/Homepage/HotCard";
 import { ChartNoAxesGantt } from 'lucide-react';
+import HotCard2 from "@/components/Homepage/HotCard2";
 
 
 const Page = () => {
@@ -33,7 +34,7 @@ const Page = () => {
 
   return (
     <div className="mt-[-2px]">
-      <Barcoin/>
+      <Barcoin />
 
       <SignedOut>
         <div className="my-20">
@@ -48,22 +49,18 @@ const Page = () => {
         </div>
       </SignedOut>
 
-      {/* <SignedIn>
-        {loading ? (
-          <p>กำลังตรวจสอบโปรไฟล์...</p>
-        ) : (
-          <div className="mt-10">
-            <Profit />
-          </div>
-        )}
-      </SignedIn> */}
-      <div>
-        <p className='text-2xl mb-5 mt-10 flex items-center mr-10'>Market Overview <ChartNoAxesGantt /></p>
-        <div className='grid grid-cols-4'>
+
+      <div className='bg-[#3F384C] dark:bg-[#232323] p-7 rounded-xl shadow-xl'> 
+        <div className='flex items-center gap-2'>
+          <p className='text-4xl font-normal text-white'>Market Overview </p>
+          <ChartNoAxesGantt className='text-white'/>
+        </div>
+        <div className='flex  gap-5 mt-7'>
+          {/* <HotCard/> */}
           <HotCard/>
-          <HotCard/>
-          <HotCard/>
-          <HotCard/>
+          <SignedIn>
+            <HotCard2/>
+          </SignedIn>  
         </div>
       </div>
       <CoinAllTable />
