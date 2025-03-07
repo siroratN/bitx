@@ -96,7 +96,7 @@ export async function buyCash(params: { price: number; value: number }) {
             ],
             mode: "payment",
             success_url: `${YOUR_DOMAIN}/cash/success/?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${YOUR_DOMAIN}/cancel`,
+            cancel_url: `${YOUR_DOMAIN}/cash/cancel`,
             metadata: {
                 priceValue: valueStr,
             },

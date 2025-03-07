@@ -11,6 +11,9 @@ importers:
       '@clerk/nextjs':
         specifier: ^6.11.3
         version: 6.11.3(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@lottiefiles/dotlottie-react':
+        specifier: ^0.13.1
+        version: 0.13.1(react@19.0.0)
       '@mui/material':
         specifier: ^6.4.5
         version: 6.4.5(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -548,6 +551,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lottiefiles/dotlottie-react@0.13.1':
+    resolution: {integrity: sha512-xSEqXt7JWoWp7vuDL2jMZ9pDVt46cYHlHn7XZp+JSMXKn0+Aif9Y6UdOFYS5l9BZtWP01HBhQnGQpt0FuuOqOw==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+
+  '@lottiefiles/dotlottie-web@0.40.2':
+    resolution: {integrity: sha512-9o/b26WwT5T165VmNIGZW+eYhnKqDwdV285SaUitcxIxtaCFDVv7uI5Nv4j+NUtigmEyL6CFoye6Q6F42uQQIg==}
 
   '@mui/core-downloads-tracker@6.4.5':
     resolution: {integrity: sha512-zoXvHU1YuoodgMlPS+epP084Pqv9V+Vg+5IGv9n/7IIFVQ2nkTngYHYxElCq8pdTTbDcgji+nNh0lxri2abWgA==}
@@ -3163,6 +3174,13 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lottiefiles/dotlottie-react@0.13.1(react@19.0.0)':
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.40.2
+      react: 19.0.0
+
+  '@lottiefiles/dotlottie-web@0.40.2': {}
 
   '@mui/core-downloads-tracker@6.4.5': {}
 
