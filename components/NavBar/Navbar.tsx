@@ -6,7 +6,7 @@ import Link from 'next/link';
 const nav = [
   { label: "Markets", href: '/'},
   { label: "Assets", href: '/assets' },
-  { label: "Activity", href: '/activity' }
+  { label: "Transactions", href: '/Transactions' }
 ];
 
 
