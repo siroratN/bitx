@@ -35,7 +35,7 @@ const Detail = () => {
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState("");
     const [cash, setCash] = useState(null);
     const [activeInput, setActiveInput] = useState(null);
 
@@ -129,7 +129,7 @@ const Detail = () => {
     }, [amount, coin, activeInput]);
 
     useEffect(() => {
-        if (coin && quantity !== "" && activeInput === 'quantity' && !isNaN(quantity)) {
+        if (coin && quantity.toString() !== "" && activeInput === 'quantity' && !isNaN(quantity)) {
             const calculatedAmount = parseFloat(quantity) * coin.current_price;
             setAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
         }
@@ -205,7 +205,7 @@ const Detail = () => {
         setAmount(newAmount);
         const response = await sellCoin({
             coinId: coin.id,
-            price: parseFloat(amount), // ราคาขาย
+            price: coin?.current_price, // ราคาขาย
             quantity: quantity, // จำนวนที่ขาย
         });
         console.log(amount, quantity);
@@ -218,6 +218,8 @@ const Detail = () => {
         } else {
             toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
         }
+
+        if(!cash) return;
     }
     return (
         <>
@@ -294,6 +296,7 @@ const Detail = () => {
                                     <div className="grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-transparent">
                                         <button
                                             onClick={() => setIsBuy(true)}
+                                            // disabled={cash?.totalSpent < amount}
                                             className={`font-semibold py-3 rounded-md transition-all duration-200 ${isBuy
                                                 ? "bg-white border-[1px] border-green-600 text-green-400 dark:bg-green-600 dark:border-green-600 dark:text-black"
                                                 : "bg-[#ebebeb] text-gray-400 border hover:bg-[#d7d6d6] dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
@@ -350,7 +353,7 @@ const Detail = () => {
                                                 </div>
                                                 <div>
                                                     <p className="flex justify-end text-2xl">
-                                                        {!quantity || isNaN(quantity) ? "0.00000000" : parseFloat(quantity).toFixed(8)}
+                                                        {!quantity || (isNaN(quantity)) ? "0.00000000" : parseFloat(quantity).toFixed(8)}
                                                         {/* {!amount || isNaN(parseFloat(amount)) ? "0.00" : parseFloat(amount).toFixed(2)} */}
 
 
@@ -361,7 +364,8 @@ const Detail = () => {
                                             <div className="flex mt-3">
                                                 <Drawer >
                                                     <DrawerTrigger asChild>
-                                                        <Button variant="outline" className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
+                                                        <Button variant="outline" 
+                                                        className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
                                                     </DrawerTrigger>
                                                     <DrawerContent>
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
@@ -435,7 +439,7 @@ const Detail = () => {
 
                                                         <input
                                                             type="number"
-                                                            value={fullSell ? coinHave?.quantity : quantity || 0}
+                                                            value={fullSell ? coinHave?.quantity : quantity || ""}
                                                             max={coinHave?.quantity}
                                                             onChange={handleQuantityChange}
                                                             className="p-2 w-full border border-gray-300 rounded-md text-end no-arrow"

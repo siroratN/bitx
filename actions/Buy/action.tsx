@@ -129,7 +129,7 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
             where: { id: existingAsset.id },
             data: {
                 quantity: { decrement: Number(quantity) },
-                totalSpent: existingAsset.totalSpent - totalSpentdeduct, // ✅ แก้ตรงนี้
+                totalSpent: existingAsset.totalSpent - totalSpentdeduct, 
             },
         });
 

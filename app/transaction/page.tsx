@@ -35,7 +35,7 @@ const Transactions = () => {
           transactions.map((transaction, index) => (
             <div
               key={index}
-              className="relative flex flex-col dark:from-gray-800 dark:to-gray-700 shadow-lg border border-gray-300 dark:border-gray-600 rounded-xl p-5 transition-all hover:scale-105 hover:shadow-xl hover:bg-yellow-200 dark:hover:text-red-500"
+              className="relative flex flex-col dark:from-gray-800 dark:to-gray-700 shadow-lg border border-gray-300 dark:border-gray-600 rounded-xl p-5 transition-all hover:scale-105 hover:shadow-xl "
             >
               <p className="mb-2 text-gray-500 dark:text-gray-400 text-sm">
                 {new Date(transaction.timestamp).toLocaleString("th-TH")}
