@@ -46,9 +46,10 @@ const CoinCard = (props) => {
     fetchData();
   }, [data.name]);
 
-  if (!coindetail ) {
-    return <div>Loading...</div>;
+  if (!coindetail || (Array.isArray(coindetail) && coindetail.length === 0)) {
+    return null; 
   }
+  
 
   return (
     <div className="w-full flex flex-col gap-4 cursor-pointer hover:scale-105 transition-transform">
@@ -84,13 +85,13 @@ const CoinCard = (props) => {
                 <div className='flex item-center gap-1 '>
                   <span>{data.totalSpent.toLocaleString()} THB</span>
                   <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null && profit >= 0 ? '+' : '-'}
+                    {profit !== null && profit >= 0 ? '+' : ''}
                   </span>
                   <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null ? `${Math.abs(Number(profit.toFixed(2)))}` : '0'}
+                    {profit !== null ? `${profit.toLocaleString()}` : '0'}
                   </span>
                   <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null ? `(${Math.abs(Number(profitPercent.toFixed(2)))})%` : ' '}
+                    {profit !== null ? `(${profitPercent.toLocaleString()})%` : ' '}
                   </span>
                   <span >{view? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}</span>
                   </div>
@@ -114,7 +115,7 @@ const CoinCard = (props) => {
                         </div>
                         <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>ราคาเฉลี่ยต่อเหรียญ</CardDescription>
-                            <CardDescription className='text-sm'>{alldetail.avgPriceCoin.toLocaleString()}</CardDescription>
+                            <CardDescription className='text-sm'>{alldetail.avgPriceCoin}</CardDescription>
                         </div>
                         <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>ราคาเฉลี่ยต่อเหรียญ * เหรียญ</CardDescription>
@@ -122,7 +123,7 @@ const CoinCard = (props) => {
                         </div>
                         <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>ราคาเหรียญตอนนี้</CardDescription>
-                            <CardDescription className='text-sm'>{coindetail.current_price.toLocaleString()}</CardDescription>
+                            <CardDescription className='text-sm'>{coindetail.current_price}</CardDescription>
                         </div>
                         <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>ราคาเหรียญตอนนี้ * เหรียญ</CardDescription>
@@ -131,8 +132,8 @@ const CoinCard = (props) => {
                         <hr/>
                         <div className='flex justify-between items-center text-sm '>
                             <CardDescription className='text-sm'>กำไร-ขาดทุน</CardDescription>
-                            <CardDescription className='text-sm'>{profit.toLocaleString()}</CardDescription>
-                        </div>
+                            <CardDescription className='text-sm'>{profit.toFixed(4).toLocaleString()}</CardDescription>
+                       </div>
                         <div className='w-full mt-3 grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500'>
                           <Button className='bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
                             <Link href={`./coin/${data.name}`}>Buy</Link>

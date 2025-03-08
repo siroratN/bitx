@@ -215,7 +215,7 @@ const Detail = () => {
             toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
         }
 
-        if (!cash) return;
+        if(!cash) return;
     }
     return (
         <>
@@ -360,8 +360,8 @@ const Detail = () => {
                                             <div className="flex mt-3">
                                                 <Drawer >
                                                     <DrawerTrigger asChild>
-                                                        <Button variant="outline"
-                                                            className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
+                                                        <Button variant="outline" 
+                                                        className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
                                                     </DrawerTrigger>
                                                     <DrawerContent>
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">

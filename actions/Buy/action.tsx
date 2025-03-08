@@ -147,14 +147,17 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
             },
         });
 
-        await db.transaction.create({
-            data: {
-                type: "SELL",
-                profileId: getuser.id,
-                assetId: existingAsset.id,
-                quantity: Number(quantity),
-                price: Number(price),
-            },
+            // สร้าง transaction โดย **ไม่อ้างอิง assetId ถ้าถูกลบไปแล้ว**
+            await tx.transaction.create({
+                data: {
+                    type: "SELL",
+                    profileId: getuser.id,
+                    assetId: assetIdForTransaction, // ถ้า assetIdForTransaction เป็น `null` จะไม่อ้างอิง
+                    quantity: Number(quantity),
+                    price: Number(price),
+                    coinName: coinId, // เพิ่มชื่อเหรียญเพื่ออ้างอิงแทน
+                },
+            });
         });
 
         return { success: true };
@@ -163,3 +166,5 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
         return { error };
     }
 }
+
+

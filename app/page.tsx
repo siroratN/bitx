@@ -1,6 +1,6 @@
 "use client";
-import { useEffect} from "react";
-import { SignedIn, SignedOut, useAuth} from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
 import Barcoin from "@/components/Homepage/barcoin";
 import CoinAllTable from "@/components/Homepage/CoinAllTable";
 import { createProfile } from "@/actions/Profile/action";
@@ -9,32 +9,42 @@ import HotCard from "@/components/Homepage/HotCard";
 import { ChartNoAxesGantt } from 'lucide-react';
 import HotCard2 from "@/components/Homepage/HotCard2";
 
-
 const Page = () => {
-  const { isSignedIn } = useAuth(); 
+  const { isSignedIn } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const createProfileAndCash = async () => {
-        if (isSignedIn) {
-            try {
-                const res = await createProfile();
-                if (res.success) {
-                    await createCash()
-                }
-            } catch (err) {
-                console.error("Error creating profile or cash:", err);
-            }
+      if (isSignedIn) {
+        try {
+          const res = await createProfile();
+          if (res.success) {
+            await createCash();
+          }
+        } catch (err) {
+          console.error("Error creating profile or cash:", err);
+        } finally {
+          setLoading(false); // ทำการตั้งสถานะการโหลดเมื่อเสร็จสิ้น
         }
+      } else {
+        setLoading(false); // ถ้าไม่ได้ลงชื่อเข้าใช้ให้ยุติการโหลด
+      }
     };
 
     createProfileAndCash();
-}, [isSignedIn]);
+  }, [isSignedIn]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-xl">Loading...</p> {/* คุณสามารถเปลี่ยนเป็น Loader หรือข้อความอะไรก็ได้ */}
+      </div>
+    );
+  }
 
   return (
     <div className="mt-[-2px]">
       <Barcoin />
-
       <SignedOut>
         <div className="my-20">
           <p className="text-3xl font-semibold">
@@ -48,18 +58,16 @@ const Page = () => {
         </div>
       </SignedOut>
 
-
-      <div className='bg-[#3F384C] dark:bg-[#232323] p-7 rounded-xl shadow-xl'> 
-        <div className='flex items-center gap-2'>
-          <p className='text-4xl font-normal text-white'>Market Overview </p>
-          <ChartNoAxesGantt className='text-white'/>
+      <div className="bg-[#3F384C] dark:bg-[#232323] p-7 rounded-xl shadow-xl">
+        <div className="flex items-center gap-2">
+          <p className="text-4xl font-normal text-white">Market Overview </p>
+          <ChartNoAxesGantt className="text-white" />
         </div>
-        <div className='flex  gap-5 mt-7'>
-          {/* <HotCard/> */}
-          <HotCard/>
+        <div className="flex gap-5 mt-7">
+          <HotCard />
           <SignedIn>
-            <HotCard2/>
-          </SignedIn>  
+            <HotCard2 />
+          </SignedIn>
         </div>
       </div>
       <CoinAllTable />
