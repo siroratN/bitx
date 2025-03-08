@@ -39,7 +39,7 @@ export default function HotCard() {
                         <div key={index} className={` flex justify-between items-center py-2  transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-[#fffbe4] hover:px-2 hover:rounded-xl `}>
                             <div className="w-full text-right flex justify-between">
                             <div className='flex gap-2'>
-                            <p className="text-sm font-sans text-black">{index + 1}</p>
+                            <p className="text-sm font-sans text-black">{index + 1}. </p>
                                 <p className="text-sm font-sans text-black">{coin.id}</p>
                             </div>
                                 <p className={`text-xs font-normal ${coin.price_change_percentage_24h < 0 ? "text-red-500" : "text-green-500"} flex items-center`}>

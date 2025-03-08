@@ -36,7 +36,7 @@ const Navbar = () => {
                       <DropdownMenuLabel ><p className="text-sm font-medium text-gray-800 ">{item.label}</p></DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link href="#">
+                        <Link href="/favorites">
                           <p className="text-sm font-medium text-gray-500">Favorites</p>
                         </Link>
                       </DropdownMenuItem>                      

@@ -24,7 +24,7 @@ const DetailAsset = ({ view }:{view:string}) => {
         };
     
         getAsset();
-    }, [);
+    }, []);
     
 
     return (

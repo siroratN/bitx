@@ -126,7 +126,7 @@
 
         <Table className='w-full'> 
           <TableHeader>
-            <TableRow className="border-none ">
+            <TableRow className="">
               <TableHead></TableHead>
               <TableHead className="text-center">Coin</TableHead>
               <TableHead className="text-center">Name</TableHead>
