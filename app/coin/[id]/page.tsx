@@ -350,7 +350,8 @@ const Detail = () => {
                                                 </div>
                                                 <div>
                                                     <p className="flex justify-end text-2xl">
-                                                        {String(isNaN(quantity) ? "0.00000000" : parseFloat(quantity).toFixed(8))}
+                                                        {!quantity || isNaN(quantity) ? "0.00000000" : parseFloat(quantity).toFixed(8)}
+                                                        {/* {!amount || isNaN(parseFloat(amount)) ? "0.00" : parseFloat(amount).toFixed(2)} */}
 
 
                                                     </p>
