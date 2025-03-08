@@ -27,7 +27,7 @@ export async function createCash() {
         const existingCash = await db.asset.findFirst({
             where: {
                 name: "Cash",
-                ownerId: getUser.id
+                ownerId: getUser.id,
             },
         });
 

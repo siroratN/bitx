@@ -1,6 +1,6 @@
 "use client";
 import { ButtonIconUnFav } from "@/components/ui/ButtonIcoUnFav";
-import { TrendingUp, TrendingDown, Trash2 } from "lucide-react";
+import { TrendingUp, TrendingDown, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FetchCoinDataDetail } from "@/data/fetchCoinData";
 import { useParams } from "next/navigation";
@@ -31,7 +31,7 @@ const Detail = () => {
     const { id } = useParams();
     const [coin, setCoin] = useState(null);
     const [fullSell, setFullSell] = useState(false);
-    const [coinHave, setCoinHave] = useState(null);
+    const [coinHave, setCoinHave] = useState("");
     const [coinChart, setCoinChart] = useState(null);
     const [isBuy, setIsBuy] = useState(true);
     const [amount, setAmount] = useState("");
@@ -94,13 +94,13 @@ const Detail = () => {
 
 
 
-        
+
         // getCash();
         getChart();
         getData();
         getCoin();
     }, [id]);
-    
+
     const handleAmountChange = (e) => {
         const value = e.target.value;
         setActiveInput('amount');
@@ -161,10 +161,6 @@ const Detail = () => {
             toast.error("กรุณาเข้าสู่ระบบก่อนทำการซื้อ");
             return;
         }
-        // if (!user) { 
-        //     openSignIn({ mode: 'modal' }); 
-        //     return; 
-        // } 
 
         if (!amount || !quantity) {
             toast.error("กรุณากรอกจำนวนเงินที่ต้องการซื้อ");
@@ -212,14 +208,14 @@ const Detail = () => {
         if (response.success) {
             toast.success("การขายเหรียญสำเร็จ!");
             setAmount("");
-            setQuantity(0);
+            setQuantity("");
             getCash();
             getCoin();
         } else {
             toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
         }
 
-        if(!cash) return;
+        if (!cash) return;
     }
     return (
         <>
@@ -364,8 +360,8 @@ const Detail = () => {
                                             <div className="flex mt-3">
                                                 <Drawer >
                                                     <DrawerTrigger asChild>
-                                                        <Button variant="outline" 
-                                                        className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
+                                                        <Button variant="outline"
+                                                            className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
                                                     </DrawerTrigger>
                                                     <DrawerContent>
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
@@ -453,9 +449,9 @@ const Detail = () => {
                                                                 setAmount("");
                                                                 setFullSell(false)
                                                             }}
-                                                            className="ml-2 text-gray-500 hover:text-red-500"
+                                                            className="-ml-2 text-gray-500 hover:text-red-500"
                                                         >
-                                                            <Trash2 size={25} />
+                                                            <X size={25} />
                                                         </button>
 
                                                     </div>
@@ -481,7 +477,11 @@ const Detail = () => {
                                                 </div>
                                                 <div>
                                                     <p className="flex justify-end text-2xl">
-                                                        {!amount || isNaN(parseFloat(amount)) ? "0.00" : parseFloat(amount).toFixed(2)}
+                                                        {/* {!amount || isNaN(parseFloat(amount)) ? "0.00" : parseFloat(amount).toFixed(2)} */}
+                                                        {!amount || isNaN(parseFloat(amount))
+                                                            ? "0.00"
+                                                            : parseFloat(amount).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+
                                                     </p>
                                                 </div>
                                             </div>
