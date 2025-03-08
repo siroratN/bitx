@@ -38,6 +38,7 @@ const Detail = () => {
     const [quantity, setQuantity] = useState("");
     const [cash, setCash] = useState(null);
     const [activeInput, setActiveInput] = useState(null);
+    const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
     const getCash = async () => {
         try {
@@ -144,45 +145,35 @@ const Detail = () => {
         }
     }, [fullSell, coinHave, coin]);
 
-    // useEffect(() => {
-    //     if (coin && amount !== "") {
-    //         setQuantity(parseFloat(amount) / coin?.current_price);
-    //     }
-    // }, [amount, coin]);
 
-    // useEffect(() => {
-    //     if (coin && quantity !== 0) {
-    //         setAmount(quantity * coin?.current_price);
-    //     }
-    // }, [quantity, coin]);
 
     const handleBuyCoin = async () => {
         if (!isSignedIn) {
             toast.error("กรุณาเข้าสู่ระบบก่อนทำการซื้อ");
             return;
         }
-        // if (!user) { 
-        //     openSignIn({ mode: 'modal' }); 
-        //     return; 
-        // } 
-
+    
         if (!amount || !quantity) {
             toast.error("กรุณากรอกจำนวนเงินที่ต้องการซื้อ");
             return;
         }
-
+    
+        // Close the drawer first
+      
+        
         const response = await buyCoin({
             coinId: coin.id,
             price: parseFloat(amount),
             quantity: quantity,
         });
-
+    
         if (response.success) {
             toast.success("การซื้อเหรียญสำเร็จ!");
             setAmount("");
             setQuantity(0);
             getCash();
             getCoin();
+              window.location.href = "/coin/bitcoin"
         } else {
             toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
         }
@@ -362,27 +353,29 @@ const Detail = () => {
                                             </div>
 
                                             <div className="flex mt-3">
-                                                <Drawer >
+                                            <Drawer isOpen={drawerIsOpen} onOpenChange={setDrawerIsOpen}>
                                                     <DrawerTrigger asChild>
                                                         <Button variant="outline" 
                                                         className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
                                                     </DrawerTrigger>
-                                                    <DrawerContent>
+                                                    <DrawerContent >
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
                                                             <DrawerHeader>
-                                                                <DrawerTitle  ><p className='font-normal text-blue-800' >ยืนยันการการซื้อ</p></DrawerTitle>
+                                                                <DrawerTitle  ><p className='font-normal text-2xl text-black' >ตรวจสอบการซื้อ</p></DrawerTitle>
                                                                 <hr className='m-3' />
-                                                                <div className='flex justify-between'>
-                                                                    <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
-                                                                    <DrawerDescription>{String(isNaN(amount) ? "0" : amount)}</DrawerDescription>
-                                                                </div>
+                                                               
+                                                                
                                                                 <div className='flex justify-between'>
                                                                     <DrawerDescription>จำนวนเหรียญที่ต้องการซื้อ</DrawerDescription>
                                                                     <DrawerDescription>{String(isNaN(quantity) ? "0" : quantity)}</DrawerDescription>
                                                                 </div>
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>ราคาทั้งหมดที่ต้องจ่าย</DrawerDescription>
+                                                                    <DrawerDescription>{String(isNaN(amount) ? "0" : amount)}</DrawerDescription>
+                                                                </div>
                                                                 <hr className='m-3' />
                                                                 <div className='flex justify-between'>
-                                                                    <DrawerDescription>ยอดเงินคงเหลือ</DrawerDescription>
+                                                                    <DrawerDescription>ยอดเงินคงเหลือ (Cash)</DrawerDescription>
                                                                     <DrawerDescription>{String(isNaN(amount) || !cash?.totalSpent ? "0" : (cash?.totalSpent - amount))}</DrawerDescription>
                                                                 </div>
                                                             </DrawerHeader>
@@ -390,7 +383,7 @@ const Detail = () => {
 
                                                         <div>
                                                             <DrawerFooter className='mx-[550px]'>
-                                                                <Button className='bg-green-400 ' onClick={handleBuyCoin}>ยืนยัน</Button>
+                                                                <Button className='bg-black hover:bg-green-800 ' onClick={handleBuyCoin}>ยืนยัน</Button>
                                                                 <DrawerClose asChild>
                                                                     <Button variant="outline">ยกเลิก</Button>
                                                                 </DrawerClose>

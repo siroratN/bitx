@@ -87,6 +87,7 @@ export async function buyCoin(params: { coinId: string; price: number; quantity:
     }
 }
 
+
 export async function sellCoin(params: { coinId: string; price: number; quantity: number }) {
     try {
         const user = await currentUser();
@@ -103,12 +104,13 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
         }
 
         const { coinId, price, quantity } = params;
-        console.log('edok', params);
+        console.log('ขายเหรียญ:', params);
 
         const existingAsset = await db.asset.findFirst({
             where: {
                 ownerId: getuser.id,
                 name: coinId,
+                deletedAt: null,
             },
         });
 
@@ -122,29 +124,33 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
 
         const totalSpentdeduct = (existingAsset.totalSpent / existingAsset.quantity) * quantity;
         const profit = (price * quantity) - totalSpentdeduct;
-        console.log('profit', profit);
-        console.log('totalSpentdeduct', totalSpentdeduct);
+        console.log('กำไร:', profit);
+        console.log('ค่าใช้จ่ายที่ถูกหัก:', totalSpentdeduct);
 
         await db.$transaction(async (tx) => {
             const newQuantity = existingAsset.quantity - quantity;
             let assetIdForTransaction = existingAsset.id; 
 
             if (newQuantity <= 0) {
-                await tx.asset.delete({
-                    where: { id: existingAsset.id },
+                await tx.asset.update({
+                    where: { id: existingAsset.id, deletedAt: null },
+                    data: { 
+                        quantity: newQuantity,
+                        totalSpent: existingAsset.totalSpent - totalSpentdeduct,
+                        deletedAt: new Date() 
+                    },
                 });
 
             } else {
                 await tx.asset.update({
-                    where: { id: existingAsset.id },
+                    where: { id: existingAsset.id, deletedAt: null },
                     data: {
-                        quantity: { decrement: Number(quantity) },
+                        quantity: newQuantity,
                         totalSpent: existingAsset.totalSpent - totalSpentdeduct,
                     },
                 });
             }
 
-            // อัปเดตเงินสด
             await tx.asset.update({
                 where: {
                     ownerId_name: {
@@ -159,15 +165,13 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
                 },
             });
 
-            // สร้าง transaction โดย **ไม่อ้างอิง assetId ถ้าถูกลบไปแล้ว**
             await tx.transaction.create({
                 data: {
                     type: "SELL",
                     profileId: getuser.id,
-                    assetId: assetIdForTransaction, // ถ้า assetIdForTransaction เป็น `null` จะไม่อ้างอิง
+                    assetId: assetIdForTransaction,
                     quantity: Number(quantity),
-                    price: Number(price),
-                    coinName: coinId, // เพิ่มชื่อเหรียญเพื่ออ้างอิงแทน
+                    price: Number(totalSpentdeduct + profit)
                 },
             });
         });
@@ -178,5 +182,7 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
         return { error };
     }
 }
+
+
 
 

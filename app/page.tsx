@@ -19,25 +19,27 @@ const Page = () => {
         try {
           const res = await createProfile();
           if (res.success) {
+            console.log('รออยู่')
             await createCash();
+            console.log('เส็ดเเล้ว')
           }
         } catch (err) {
           console.error("Error creating profile or cash:", err);
         } finally {
-          setLoading(false); // ทำการตั้งสถานะการโหลดเมื่อเสร็จสิ้น
+          setLoading(false); 
         }
       } else {
-        setLoading(false); // ถ้าไม่ได้ลงชื่อเข้าใช้ให้ยุติการโหลด
+        setLoading(false); 
       }
     };
 
     createProfileAndCash();
-  }, [isSignedIn]);
+  }, [isSignedIn, loading]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-xl">Loading...</p> {/* คุณสามารถเปลี่ยนเป็น Loader หรือข้อความอะไรก็ได้ */}
+        <p className="text-xl">Loading...</p> 
       </div>
     );
   }

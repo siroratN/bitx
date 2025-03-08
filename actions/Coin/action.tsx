@@ -27,7 +27,8 @@ export async function createCash() {
         const existingCash = await db.asset.findFirst({
             where: {
                 name: "Cash",
-                ownerId: getUser.id
+                ownerId: getUser.id,
+                deletedAt: null
             },
         });
 
@@ -56,7 +57,11 @@ export async function getAllAsset() {
                 clerkId: user.id
             },
             include: {
-                assets: true
+                assets: {
+                    where: {
+                        deletedAt: null  
+                    }
+                }
             }
         });
 
@@ -86,7 +91,7 @@ export async function calProfit(coinName: string): Promise<ProfitResult | ErrorR
     }
 
     const myCoin = await db.asset.findFirst({
-        where: { ownerId: getUser.id, name: coinName }
+        where: { ownerId: getUser.id, name: coinName, deletedAt: null }
     });
 
     console.log('ควยยย : ',myCoin)
