@@ -8,8 +8,7 @@ const Signout = () => {
 
     const handlelogout = () => {
         toast({
-            title: "Logout Succesful!!",
-            description: "BitX : Hope to Meet You Again",
+            title: "Logout Succesful!!"
         })
     }
 
