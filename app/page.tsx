@@ -17,21 +17,20 @@ const Page = () => {
     const createProfileAndCash = async () => {
       if (isSignedIn) {
         try {
-          const res = await createProfile();
-          if (res.success) {
-            console.log('รออยู่')
-            await createCash();
-            console.log('เส็ดเเล้ว')
-          }
+          console.time("createProfile & createCash");
+          await Promise.all([createProfile(), createCash()]);
+          console.timeEnd("createProfile & createCash");
+          console.log("เส็ดเเล้ว");
         } catch (err) {
           console.error("Error creating profile or cash:", err);
         } finally {
-          setLoading(false); 
+          setLoading(false);
         }
       } else {
-        setLoading(false); 
+        setLoading(false);
       }
     };
+    
 
     createProfileAndCash();
   }, [isSignedIn, loading]);

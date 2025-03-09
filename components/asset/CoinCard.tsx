@@ -82,21 +82,16 @@ const CoinCard = (props) => {
                   />
                   <p className="ml-2 text-[13px]">{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</p>
                 </div>
-                <div className='flex item-center gap-1 '>
+                <div className="flex items-center gap-1">
                   <span>{data.totalSpent.toLocaleString()} THB</span>
-                  {profit !== 0 &&  <span className={profit > 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null && profit >= 0 ? '+' : ''}
+                  <span className={profit >= 0 ? "text-green-500" : "text-red-500"}>
+                    {profit !== 0 ? `${profit.toLocaleString()}` : "0"}
                   </span>
-                  <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null ? `${profit.toLocaleString()}` : '0'}
+                  <span className={profit >= 0 ? "text-green-500" : "text-red-500"}>
+                    {profit !== 0 ? `(${profitPercent.toLocaleString()}%)` : " "}
                   </span>
-                  <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {profit !== null ? `(${profitPercent.toLocaleString()})%` : ' '}
-                  </span>
-                  <span >{view? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}</span>
-                  
-                  }
-                 </div>
+                  {view ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                </div>
               </div>
             </CardDescription>
           </CardHeader>
@@ -137,13 +132,17 @@ const CoinCard = (props) => {
                             <CardDescription className='text-sm'>{profit.toFixed(4).toLocaleString()}</CardDescription>
                        </div>
                         <div className='w-full mt-3 grid grid-cols-2 bg-[#ebebeb] p-1 rounded-md gap-2 dark:bg-slate-500'>
-                          <Button className='bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
-                            <Link href={`./coin/${data.name}`}>Buy</Link>
+                          <Link href={`./coin/${data.name}`}>
+                            <Button className='w-full bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-green-400 hover:border-green-500 transition-colors duration-200 hover:bg-white'>
+                              Buy
+                            </Button>
+                            </Link>
+                          
+                          <Link href={`./coin/${data.name}`}>
+                          <Button className='w-full bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-red-400 hover:border-red-500 transition-colors duration-200 hover:bg-white'>
+                            Sell
                           </Button>
-
-                          <Button className='bg-[#ebebeb] text-sm text-black border py-1 px-2 rounded-sm hover:text-red-400 hover:border-red-500 transition-colors duration-200 hover:bg-white'>
-                            <Link href={`./coin/${data.name}`}>Sell</Link>
-                          </Button>
+                          </Link>
                                             
                         </div>
                       </div>
