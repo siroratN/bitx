@@ -1,7 +1,7 @@
 'use client'
 import { getFav, unFav } from "@/actions/Fav/Fav";
 import { FetchCoinData } from '@/data/fetchCoinData'
-import Barcoin from "@/components/Homepage/barcoin";
+import Barcoin from "@/components/Homepage/Barcoin";
 import { MoveDiagonal } from 'lucide-react';
 import { ButtonIconFav } from "@/components/ui/ButtonIconFav";
 import {
