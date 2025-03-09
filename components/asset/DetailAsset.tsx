@@ -11,7 +11,7 @@ const DetailAsset = ({ view }:{view:string}) => {
 
     useEffect(() => {
         if (!view) return;
-        console.log("Calling calProfit with:", view); // ตรวจสอบค่า view ที่ถูกส่งเข้าไป
+        console.log("Calling calProfit with:", view); 
     
         const getAsset = async () => {
             try {
@@ -33,9 +33,7 @@ const DetailAsset = ({ view }:{view:string}) => {
                 <CardHeader>
                     <CardTitle>{view}</CardTitle>
                     <p className="text-3xl font-bold">${assetData?.hasPriceNow || "0.00"}</p>
-                    {/* <p className="text-sm text-gray-500">
-                        Profit: {assetData?.myCoin.totalSpent.tpLocalString() || "0.00"} USD ({assetData?.resultProfitPercent?.toFixed(2) || "0.00"}%)
-                    </p> */}
+                    
                 </CardHeader>
             </Card>
             <Card>

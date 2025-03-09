@@ -85,10 +85,10 @@ const CoinCard = (props) => {
                 <div className="flex items-center gap-1">
                   <span>{data.totalSpent.toLocaleString()} THB</span>
                   <span className={profit >= 0 ? "text-green-500" : "text-red-500"}>
-                    {profit !== 0 ? `${profit.toLocaleString()}` : "0"}
+                    {profit !== 0 ? `${profit.toLocaleString()}` : ""}
                   </span>
                   <span className={profit >= 0 ? "text-green-500" : "text-red-500"}>
-                    {profit !== 0 ? `(${profitPercent.toLocaleString()}%)` : " "}
+                    {profit !== 0 ? `(${profitPercent.toLocaleString()}%)` : ""}
                   </span>
                   {view ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                 </div>
