@@ -167,4 +167,3 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
     }
 }
 
-
