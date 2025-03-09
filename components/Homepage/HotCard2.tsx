@@ -39,12 +39,12 @@ export default function HotCard2() {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        if(data.length > 0){setLoading(false);}
       }
     };
 
     fetchData();
-  }, []);
+  }, [data]);
 
   return (
     <Card className="p-4 w-[350px] bg-white dark:bg-[#f0f0f0] rounded-xl shadow-md">
@@ -64,8 +64,6 @@ export default function HotCard2() {
 
       {loading ? (
         <p className="text-center text-gray-500 mt-3">Loading...</p>
-      ) : data.length === 0 ? (
-        <p className="text-center text-gray-500 mt-3">No assets found.</p>
       ) : (
         <div className="mt-3">
           {data.map((coin, index) => (
