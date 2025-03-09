@@ -146,6 +146,15 @@ const Detail = () => {
     }, [fullSell, coinHave, coin]);
 
 
+    // Check if buy button should be disabled
+    const isBuyButtonDisabled = () => {
+        return !amount || amount === "0" || !quantity || quantity === "0" || !isSignedIn || (cash && cash.totalSpent < parseFloat(amount));
+    };
+
+    // Check if sell button should be disabled
+    const isSellButtonDisabled = () => {
+        return !quantity || quantity === "0" || !isSignedIn || (coinHave && parseFloat(quantity) > coinHave.quantity);
+    };
 
     const handleBuyCoin = async () => {
         if (!isSignedIn) {
@@ -196,8 +205,8 @@ const Detail = () => {
         setAmount(newAmount);
         const response = await sellCoin({
             coinId: coin.id,
-            price: coin?.current_price, // ราคาขาย
-            quantity: quantity, // จำนวนที่ขาย
+            price: coin?.current_price, 
+            quantity: quantity, 
         });
         console.log(amount, quantity);
         if (response.success) {
@@ -206,6 +215,7 @@ const Detail = () => {
             setQuantity("");
             getCash();
             getCoin();
+             window.location.href = "/coin/bitcoin"
         } else {
             toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
         }
@@ -355,8 +365,16 @@ const Detail = () => {
                                             <div className="flex mt-3">
                                             <Drawer isOpen={drawerIsOpen} onOpenChange={setDrawerIsOpen}>
                                                     <DrawerTrigger asChild>
-                                                        <Button variant="outline" 
-                                                        className="w-full focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 px-20 py-[25px]">ซื้อ</Button>
+                                                        <Button 
+                                                            variant="outline" 
+                                                            disabled={isBuyButtonDisabled()}
+                                                            className={`w-full font-medium rounded-md text-lg px-5 py-3 px-20 py-[25px] ${
+                                                                isBuyButtonDisabled() 
+                                                                ? "text-gray-400 bg-gray-200 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500" 
+                                                                : "text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                                            }`}>
+                                                            ซื้อ
+                                                        </Button>
                                                     </DrawerTrigger>
                                                     <DrawerContent >
                                                         <div className="mx-auto w-full max-w-sm mt-3 mb-10">
@@ -483,13 +501,54 @@ const Detail = () => {
                                                 </div>
                                             </div>
                                             <div className="flex mt-4">
-                                                <button
-                                                    type="submit"
-                                                    onClick={handleSellCoin}
-                                                    className="w-full focus:outline-none text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-lg px-5 py-3 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                                                >
-                                                    ขาย
-                                                </button>
+
+
+                                                <Drawer isOpen={drawerIsOpen} onOpenChange={setDrawerIsOpen}>
+                                                    <DrawerTrigger asChild>
+                                                        <Button 
+                                                            variant="outline" 
+                                                            disabled={isSellButtonDisabled()}
+                                                            className={`w-full font-medium rounded-md text-lg px-5 py-6 ${
+                                                                isSellButtonDisabled() 
+                                                                ? "text-gray-400 bg-gray-200 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500" 
+                                                                : "text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                                                            }`}>
+                                                            ขาย
+                                                        </Button>
+                                                    </DrawerTrigger>
+                                                    <DrawerContent >
+                                                        <div className="mx-auto w-full max-w-sm mt-3 mb-10">
+                                                            <DrawerHeader>
+                                                                <DrawerTitle  ><p className='font-normal text-2xl text-black' >ตรวจสอบการขาย</p></DrawerTitle>
+                                                                <hr className='m-3' />
+                                                               
+                                                                
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>จำนวนเหรียญที่ต้องการขาย</DrawerDescription>
+                                                                    <DrawerDescription>{String(isNaN(quantity) ? "0" : quantity)}</DrawerDescription>
+                                                                </div>
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>เงินที่ได้รับ</DrawerDescription>
+                                                                    <DrawerDescription>{String(isNaN(amount) ? "0" : amount)}</DrawerDescription>
+                                                                </div>
+                                                                <hr className='m-3' />
+                                                                <div className='flex justify-between'>
+                                                                    <DrawerDescription>ยอดเงินคงเหลือ (Cash)</DrawerDescription>
+                                                                    <DrawerDescription>{String(isNaN(amount) || !cash?.totalSpent ? "0" : (cash?.totalSpent + amount))}</DrawerDescription>
+                                                                </div>
+                                                            </DrawerHeader>
+                                                        </div>
+
+                                                        <div>
+                                                            <DrawerFooter className='mx-[550px]'>
+                                                                <Button className='bg-black hover:bg-green-800 ' onClick={handleSellCoin}>ยืนยัน</Button>
+                                                                <DrawerClose asChild>
+                                                                    <Button variant="outline">ยกเลิก</Button>
+                                                                </DrawerClose>
+                                                            </DrawerFooter>
+                                                        </div>
+                                                    </DrawerContent>
+                                                </Drawer>
                                             </div>
                                         </div>
 

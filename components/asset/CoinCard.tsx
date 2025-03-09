@@ -84,7 +84,7 @@ const CoinCard = (props) => {
                 </div>
                 <div className='flex item-center gap-1 '>
                   <span>{data.totalSpent.toLocaleString()} THB</span>
-                  <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
+                  {profit !== 0 &&  <span className={profit > 0 ? 'text-green-500' : 'text-red-500'}>
                     {profit !== null && profit >= 0 ? '+' : ''}
                   </span>
                   <span className={profit >= 0 ? 'text-green-500' : 'text-red-500'}>
@@ -94,7 +94,9 @@ const CoinCard = (props) => {
                     {profit !== null ? `(${profitPercent.toLocaleString()})%` : ' '}
                   </span>
                   <span >{view? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}</span>
-                  </div>
+                  
+                  }
+                 </div>
               </div>
             </CardDescription>
           </CardHeader>

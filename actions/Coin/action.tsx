@@ -64,6 +64,7 @@ export async function getAllAsset() {
                 }
             }
         });
+        
 
         if (!profile) {
             return { message: 'Profile not found' };

@@ -57,6 +57,7 @@ export async function buyCoin(params: { coinId: string; price: number; quantity:
                 data: {
                     totalSpent: { increment: Number(price) },
                     quantity: { increment: Number(quantity) },
+                    deletedAt: null 
                 },
             });
         } else {
@@ -66,6 +67,7 @@ export async function buyCoin(params: { coinId: string; price: number; quantity:
                     ownerId: getuser.id,
                     totalSpent: Number(price),
                     quantity: Number(quantity),
+                    deletedAt: null  
                 },
             });
         }
@@ -130,8 +132,9 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
         await db.$transaction(async (tx) => {
             const newQuantity = existingAsset.quantity - quantity;
             let assetIdForTransaction = existingAsset.id; 
-
+            
             if (newQuantity <= 0) {
+                console.log('เข้าอันเเรก', newQuantity)
                 await tx.asset.update({
                     where: { id: existingAsset.id, deletedAt: null },
                     data: { 
@@ -147,6 +150,7 @@ export async function sellCoin(params: { coinId: string; price: number; quantity
                     data: {
                         quantity: newQuantity,
                         totalSpent: existingAsset.totalSpent - totalSpentdeduct,
+                        deletedAt: null
                     },
                 });
             }
