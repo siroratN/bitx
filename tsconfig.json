@@ -14,8 +14,9 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [{ "name": "next" }],
+    "baseUrl": ".",  // ตั้งค่า baseUrl เป็น root directory
     "paths": {
-      "@/*": ["./*"]  // ✅ ตรวจสอบว่าโครงสร้างโฟลเดอร์รองรับ
+      "@/*": ["./*"]  // ใช้ path alias @/ ให้ตรงกับ root directory
     }
   },
   "include": [
@@ -23,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/**/*"  // ✅ ครอบคลุมทุกไฟล์ใน `components/`
+    "components/**/*"  // รวมไฟล์ทั้งหมดในโฟลเดอร์ components
   ],
   "exclude": ["node_modules"]
 }
