@@ -20,9 +20,9 @@ const Transactions = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center mt-[-8px] px-4">
+    <div className="mt-[-45px] content2">
       <Barcoin />
-      <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mt-4">
+      <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mt-8">
         Transactions
       </h1>
 
@@ -76,7 +76,7 @@ const Transactions = () => {
                     {transaction.type === "BUY" ? (
                       <>
                         <span>{transaction.price}</span>
-                        <span className="text-black"> บาท</span>
+                        <span className="text-black dark:text-gray-200"> บาท</span>
                       </>
                     ) : (
                       <>

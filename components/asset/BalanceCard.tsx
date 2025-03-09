@@ -36,7 +36,7 @@ const BalanceCard = ({ allMyAssets = [] }) => {
   }, [allMyAssets]);
 
   return (
-    <Card className="p-4 w-[350px] bg-white dark:bg-[#f0f0f0] rounded-xl shadow-md">
+    <Card className="p-4 w-[350px] bg-white dark:bg-transparent rounded-xl shadow-md">
       <CardHeader>
         <CardTitle>
           <div className="grid grid-cols-2">

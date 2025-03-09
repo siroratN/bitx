@@ -33,16 +33,16 @@ const Navbar = () => {
                       </span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuLabel ><p className="text-sm font-medium text-gray-800 ">{item.label}</p></DropdownMenuLabel>
+                      <DropdownMenuLabel ><p className="text-sm font-medium text-gray-800 dark:text-white">{item.label}</p></DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
                         <Link href="/favorites">
-                          <p className="text-sm font-medium text-gray-500">Favorites</p>
+                          <p className="text-sm font-medium text-gray-500 dark:text-white">Favorites</p>
                         </Link>
                       </DropdownMenuItem>                      
                       <DropdownMenuItem>
                         <Link href="/transaction">
-                          <p className="text-sm font-medium text-gray-500">Transactions</p>
+                          <p className="text-sm font-medium text-gray-500 dark:text-white">Transactions</p>
                         </Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

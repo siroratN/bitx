@@ -182,7 +182,7 @@ const Detail = () => {
             setQuantity(0);
             getCash();
             getCoin();
-              window.location.href = "/coin/bitcoin"
+            window.location.href = `/coin/${coin.id}`;
         } else {
             toast.error("เกิดข้อผิดพลาดในการซื้อเหรียญ!");
         }
@@ -215,7 +215,7 @@ const Detail = () => {
             setQuantity("");
             getCash();
             getCoin();
-             window.location.href = "/coin/bitcoin"
+             window.location.href = `/coin/${coin.id}`;
         } else {
             toast.error("เกิดข้อผิดพลาดในการขายเหรียญ!");
         }
@@ -231,16 +231,16 @@ const Detail = () => {
                         <div className="flex flex-col gap-4">
                             <div className="grid grid-cols-3">
                                 <div className="col-span-2">
-                                    <div className="flex flex-row gap-2 items-center justify-center">
+                                    <div className="flex flex-row gap-2 items-center justify-center ">
                                         <img className="size-20" src={coin.image} alt={coin.name} />
                                         <p className="p-4 text-2xl">
                                             {coin.id}{" "}
                                             <span className="bg-slate-900 text-sm p-1 rounded-sm text-white px-3">
                                                 {coin.symbol.toUpperCase()}
                                             </span>
-                                            <span className="px-2 ml-1 mt-2 inline-flex items-center">
+                                            {/* <span className="px-2 ml-1 mt-2 inline-flex items-center">
                                                 <ButtonIconUnFav />
-                                            </span>
+                                            </span> */}
                                         </p>
                                     </div>
                                 </div>
@@ -553,9 +553,9 @@ const Detail = () => {
                                         </div>
 
                                     )}
-                                    <div className="mt-6 text-right text-red-600">
+                                    {/* <div className="mt-6 text-right text-red-600">
                                         <p>*** ทุกการลงทุนมีความเสี่ยง ***</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

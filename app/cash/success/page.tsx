@@ -26,15 +26,15 @@ const SuccessPage = () => {
     }, [session_id]);
 
     return (
-        <div className=" flex flex-col items-center justify-center p-4 mt-24">
-            <div className="max-w-lg w-full text-center bg-white p-8 ">
+        <div className=" flex flex-col items-center justify-center p-4 mt-24 ">
+            <div className="max-w-lg w-full text-center bg-white dark:bg-transparent p-8 ">
                 <DotLottieReact
                     src="https://lottie.host/42dc71a3-24e0-493d-917b-18862d9f4db3/jo1Izvisyg.lottie"
                     loop
                     autoplay
                 />
                 <h1 className="text-3xl font-bold text-green-600 mb-4">จ่ายเงินสำเร็จ</h1>
-                <p className="text-lg text-gray-700">การทำรายการของคุณเสร็จสมบูรณ์แล้ว ขอบคุณที่ใช้บริการ</p>
+                <p className="text-lg text-gray-700 dark:text-white">การทำรายการของคุณเสร็จสมบูรณ์แล้ว ขอบคุณที่ใช้บริการ</p>
                 <div className="mt-8">
                     {/* <button
                         onClick={() => window.location.href = '/'}
